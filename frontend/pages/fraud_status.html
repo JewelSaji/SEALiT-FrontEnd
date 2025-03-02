@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Status | Product DNA Verification</title>
+    <style>
+        :root {
+            --primary: #c73295;
+            --primary-dark: #880071;
+            --secondary: #8338ec;
+            --success: #10b981;
+            --warning: #fbbf24;
+            --danger: #ef4444;
+            --pending: #6b7280;
+            --background: #f9fafb;
+            --card: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary);
+            padding: 1rem 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: white;
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s;
+        }
+
+        nav a:hover:after {
+            width: 100%;
+        }
+
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.95rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-dropdown {
+            position: relative;
+        }
+
+        .filter-btn, .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .filter-btn:hover, .action-btn:hover {
+            background-color: var(--background);
+        }
+
+        .action-btn.primary {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .action-btn.primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .status-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-card {
+            background-color: var(--card);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .status-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .card-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .status-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: rgba(107, 114, 128, 0.1);
+            color: var(--pending);
+        }
+
+        .status-investigating {
+            background-color: rgba(251, 191, 36, 0.1);
+            color: var(--warning);
+        }
+
+        .status-resolved {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-escalated {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .fraud-reports {
+            background-color: var(--card);
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .report-table th {
+            text-align: left;
+            padding: 1rem;
+            background-color: var(--background);
+            font-weight: 500;
+            color: var(--text-light);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .report-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .report-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .report-table tr:hover {
+            background-color: var(--background);
+        }
+
+        .report-id {
+            font-family: monospace;
+            color: var(--primary);
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .product-thumbnail {
+            width: 48px;
+            height: 48px;
+            border-radius: 0.25rem;
+            object-fit: cover;
+            background-color: var(--background);
+        }
+
+        .timestamp {
+            white-space: nowrap;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .seller-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .seller-name {
+            font-weight: 500;
+        }
+
+        .action-menu {
+            position: relative;
+        }
+
+        .action-dots {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .pagination-info {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .page-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .page-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .page-btn:hover:not(.active) {
+            background-color: var(--background);
+        }
+
+        footer {
+            background-color: var(--card);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-light);
+            margin-top: 4rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            .user-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .status-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-box {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .report-table {
+                font-size: 0.9rem;
+            }
+
+            .report-table th:nth-child(4),
+            .report-table td:nth-child(4) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div img src="SEALbg.png" alt="DNA Logo" width="100px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V4l-8-2-8 2v8c0 6 8 10 8 10z"></path>
+            </svg>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="seller_dashboard.html">Dashboard</a></li>
+                <li><a href="product-verification.html">Verify</a></li>
+                <li><a href="report-fraud.html">Report</a></li>
+                <li><a href="contact.html">Support</a></li>
+            </ul>
+        </nav>
+        <div class="user-controls">
+            <div class="user-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+            <span>John Smith</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="breadcrumb">
+            <a href="seller_dashboard.html">Dashboard</a>
+            <span>/</span>
+            <span>Fraud Reports</span>
+        </div>
+
+        <div class="page-title">
+            <h1>Fraud Reports & Status</h1>
+            <p>Track and manage your product fraud reports</p>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active">My Reports</div>
+            <div class="tab">All Public Reports</div>
+            <div class="tab">Resolved Cases</div>
+        </div>
+
+        <div class="filter-bar">
+            <div class="search-box">
+                <div class="search-icon">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+                <input type="text" placeholder="Search by product, seller or report ID...">
+            </div>
+            <div class="filter-options">
+                <div class="filter-dropdown">
+                    <button class="filter-btn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                        </svg>
+                        Filter
+                    </button>
+                </div>
+                <div class="filter-dropdown">
+                    <button class="filter-btn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                        Date Range
+                    </button>
+                </div>
+                <button class="action-btn primary">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Report New Fraud
+                </button>
+            </div>
+        </div>
+
+        <div class="status-cards">
+            <div class="status-card">
+                <h3>Total Reports</h3>
+                <div class="card-number">12</div>
+                <div class="card-footer">
+                    <span>Last 30 days</span>
+                    <span>+3 from last month</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <h3>Pending Review</h3>
+                <div class="card-number">4</div>
+                <div class="card-footer">
+                    <span>Avg. wait time: 24h</span>
+                    <span class="status-tag status-pending">Pending</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <h3>Under Investigation</h3>
+                <div class="card-number">5</div>
+                <div class="card-footer">
+                    <span>Avg. resolution: 7 days</span>
+                    <span class="status-tag status-investigating">Investigating</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <h3>Resolved Cases</h3>
+                <div class="card-number">3</div>
+                <div class="card-footer">
+                    <span>Success rate: 75%</span>
+                    <span class="status-tag status-resolved">Resolved</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="fraud-reports">
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>Report ID</th>
+                        <th>Product</th>
+                        <th>Seller</th>
+                        <th>Date Reported</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="report-id">FR-20250228-0017</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumbnail">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div>Apple AirPods Pro</div>
+                                    <div class="timestamp">S/N: AP9823761</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="seller-info">
+                                <div class="seller-name">TechGadgetStore</div>
+                                <div class="timestamp">ID: SL-54321</div>
+                            </div>
+                        </td>
+                        <td class="timestamp">Feb 28, 2025</td>
+                        <td>
+                            <span class="status-tag status-investigating">Investigating</span>
+                        </td>
+                        <td>
+                            <div class="action-menu">
+                                <div class="action-dots">⋯</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="report-id">FR-20250226-0015</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumbnail">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div>Nike Air Max 270</div>
+                                    <div class="timestamp">S/N: NK8734526</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="seller-info">
+                                <div class="seller-name">SportShoeOutlet</div>
+                                <div class="timestamp">ID: SL-98765</div>
+                            </div>
+                        </td>
+                        <td class="timestamp">Feb 26, 2025</td>
+                        <td>
+                            <span class="status-tag status-escalated">Escalated</span>
+                        </td>
+                        <td>
+                            <div class="action-menu">
+                                <div class="action-dots">⋯</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="report-id">FR-20250222-0012</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumbnail">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div>Louis Vuitton Handbag</div>
+                                    <div class="timestamp">S/N: LV5678432</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="seller-info">
+                                <div class="seller-name">LuxuryBagEmporium</div>
+                                <div class="timestamp">ID: SL-12345</div>
+                            </div>
+                        </td>
+                        <td class="timestamp">Feb 22, 2025</td>
+                        <td>
+                            <span class="status-tag status-resolved">Resolved</span>
+                        </td>
+                        <td>
+                            <div class="action-menu">
+                                <div class="action-dots">⋯</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="report-id">FR-20250220-0011</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumbnail">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div>Samsung Galaxy S30</div>
+                                    <div class="timestamp">S/N: SG10284756</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="seller-info">
+                                <div class="seller-name">MobileDealsPlus</div>
+                                <div class="timestamp">ID: SL-45678</div>
+                            </div>
+                        </td>
+                        <td class="timestamp">Feb 20, 2025</td>
+                        <td>
+                            <span class="status-tag status-pending">Pending</span>
+                        </td>
+                        <td>
+                            <div class="action-menu">
+                                <div class="action-dots">⋯</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="report-id">FR-20250215-0008</td>
+                        <td>
+                            <div class="product-info">
+                                <div class="product-thumbnail">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div>Dyson Hair Dryer</div>
+                                    <div class="timestamp">S/N: DY3467890</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="seller-info">
+                                <div class="seller-name">BeautyTechStore</div>
+                                <div class="timestamp">ID: SL-87654</div>
+                            </div>
+                        </td>
+                        <td class="timestamp">Feb 15, 2025</td>
+                        <td>
+                            <span class="status-tag status-resolved">Resolved</span>
+                        </td>
+                        <td>
+                            <div class="action-menu">
+                                <div class="action-dots">⋯</div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination">
+            <div class="pagination-info">
+                Showing 1-5 of 12 reports
+            </div>
+            <div class="pagination-controls">
+                <div class="page-btn">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </div>
+                <div class="page-btn active">1</div>
+                <div class="page-btn">2</div>
+                <div class="page-btn">3</div>
+                <div class="page-btn">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 SEALit. All rights reserved.</p>
+        <p><a href="about.html">Terms of Service</a> | <a href="about.html">Privacy Policy</a> | <a href="about.html">Contact Support</a></p>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("You must be logged in to view fraud reports.");
+                window.location.href = "login.html";
+                return;
+            }
+    
+            const user = JSON.parse(localStorage.getItem("user"));
+    
+            async function fetchFraudStatus() {
+                try {
+                    const response = await fetch(`http://your-backend-url/api/fraud/status/${user.id}`, {
+                        headers: { "Authorization": `Bearer ${token}` }
+                    });
+    
+                    const reports = await response.json();
+                    document.getElementById("fraudTable").innerHTML = reports.map(report => `
+                        <tr>
+                            <td>${report.product_name}</td>
+                            <td>${report.seller_name}</td>
+                            <td>${report.ai_detected ? "Fake" : "Authentic"}</td>
+                            <td class="status-${report.status.toLowerCase()}">${report.status}</td>
+                            <td>${new Date(report.created_at).toLocaleDateString()}</td>
+                        </tr>
+                    `).join("");
+                } catch (error) {
+                    alert("Error fetching fraud reports: " + error.message);
+                }
+            }
+    
+            fetchFraudStatus();
+        });
+    </script>
+</body>
+</html>

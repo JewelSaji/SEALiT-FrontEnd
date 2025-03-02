@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Products | DNA Credibility System</title>
+    <style>
+        :root {
+            --primary: #c73295;
+            --primary-light: #880071;
+            --secondary: #5cb85c;
+            --danger: #d9534f;
+            --warning: #f0ad4e;
+            --dark: #333;
+            --light: #f8f9fa;
+            --border: #ddd;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background-color: var(--primary);
+            padding: 1rem 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .navbar-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .navbar-menu a:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .btn-success {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #4cae4c;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c9302c;
+        }
+        
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.875rem;
+        }
+        
+        .search-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            max-width: 400px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .search-box button {
+            padding: 0.75rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 15px;
+        }
+        
+        select {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .status {
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .status-verified {
+            background-color: #e6f7e6;
+            color: var(--secondary);
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: var(--warning);
+        }
+        
+        .status-rejected {
+            background-color: #ffebee;
+            color: var(--danger);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+        
+        .pagination-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pagination-item:hover {
+            background-color: #e9ecef;
+        }
+        
+        .pagination-item.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .product-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .qr-container {
+            text-align: center;
+        }
+        
+        .qr-code {
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .stat-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .stat-change {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        
+        .stat-change.positive {
+            color: var(--secondary);
+        }
+        
+        .stat-change.negative {
+            color: var(--danger);
+        }
+        
+        @media (max-width: 992px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .search-filters {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .filter-options {
+                flex-wrap: wrap;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            th:nth-child(3), td:nth-child(3),
+            th:nth-child(4), td:nth-child(4) {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            th:nth-child(5), td:nth-child(5) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="logo"></span>
+            <span ><img src=SEAL.png></span>
+        </div>
+        <div class="navbar-menu">
+            <a href="seller_dashboard.html">Dashboard</a>
+            <a href="product_list.html">My Products</a>
+            <a href="trust_score.html">Trust Score</a>
+            <a href="seller_management.html">Profile</a>
+            <a href="index.html">Logout</a>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Seller Dashboard</h1>
+            <div class="breadcrumb">
+                Dashboard > My Products
+            </div>
+        </div>
+        
+        <!-- Stats Overview -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-title">Total Products</div>
+                <div class="stat-value">147</div>
+                <div class="stat-change positive">+12 this month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Verified Products</div>
+                <div class="stat-value">132</div>
+                <div class="stat-change positive">89.8% of total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Pending Verification</div>
+                <div class="stat-value">11</div>
+                <div class="stat-change">7.5% of total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Reported Issues</div>
+                <div class="stat-value">4</div>
+                <div class="stat-change negative">Requires attention</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">My Registered Products</h2>
+                <a href="product_registration.html" class="btn btn-primary">Register New Product</a>
+            </div>
+            
+            <div class="search-filters">
+                <div class="search-box">
+                    <input type="text" placeholder="Search by product name or serial number">
+                    <button>🔍</button>
+                </div>
+                <div class="filter-options">
+                    <select>
+                        <option value="all">All Categories</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="fashion">Fashion & Luxury</option>
+                        <option value="pharmaceuticals">Pharmaceuticals</option>
+                        <option value="cosmetics">Cosmetics</option>
+                        <option value="food">Food & Beverages</option>
+                    </select>
+                    <select>
+                        <option value="all">All Statuses</option>
+                        <option value="verified">Verified</option>
+                        <option value="pending">Pending</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Serial Number</th>
+                        <th>Category</th>
+                        <th>Manufacturing Date</th>
+                        <th>Blockchain Status</th>
+                        <th>QR Code</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <img src="astronaut.png" alt="Product" class="product-image">
+                                <div>
+                                    <div style="font-weight: 500;">Premium Leather Wallet</div>
+                                    <div style="font-size: 0.875rem; color: #666;">Luxury Collection</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>LUX-2025-WL-7842</td>
+                        <td>Fashion & Luxury</td>
+                        <td>15-Jan-2025</td>
+                        <td><span class="status status-verified">Verified ✓</span></td>
+                        <td class="qr-container">
+                            <img src="QR_Code.png" alt="QR Code" class="qr-code">
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm">View</button>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <img src="girl.png" alt="Product" class="product-image">
+                                <div>
+                                    <div style="font-weight: 500;">Designer Sunglasses</div>
+                                    <div style="font-size: 0.875rem; color: #666;">Summer Collection</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>ACC-2025-SG-4519</td>
+                        <td>Fashion & Luxury</td>
+                        <td>20-Jan-2025</td>
+                        <td><span class="status status-verified">Verified ✓</span></td>
+                        <td class="QR_Code.png">
+                            <img src="QR_Code.png" alt="QR Code" class="qr-code">
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm">View</button>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <img src="Bloom-wallpaper-Dark.png" alt="Product" class="product-image">
+                                <div>
+                                    <div style="font-weight: 500;">Ultra HD Smart TV</div>
+                                    <div style="font-size: 0.875rem; color: #666;">55-inch Model X500</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>ELC-2025-TV-2390</td>
+                        <td>Electronics</td>
+                        <td>05-Feb-2025</td>
+                        <td><span class="status status-pending">Pending</span></td>
+                        <td class="qr-container">
+                            <img src="QR_Code.png" alt="QR Code" class="qr-code">
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm">View</button>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <img src="home.png" alt="Product" class="product-image">
+                                <div>
+                                    <div style="font-weight: 500;">Premium Face Serum</div>
+                                    <div style="font-size: 0.875rem; color: #666;">Anti-Aging Formula</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>COS-2025-FS-6371</td>
+                        <td>Cosmetics</td>
+                        <td>12-Feb-2025</td>
+                        <td><span class="status status-rejected">Rejected</span></td>
+                        <td class="qr-container">
+                            <img src="QR_Code.png" alt="QR Code" class="qr-code">
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm">View</button>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <img src="wireless-headphones.webp" alt="Product" class="product-image">
+                                <div>
+                                    <div style="font-weight: 500;">Wireless Headphones</div>
+                                    <div style="font-size: 0.875rem; color: #666;">Noise Cancelling</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>ELC-2025-HP-8521</td>
+                        <td>Electronics</td>
+                        <td>18-Feb-2025</td>
+                        <td><span class="status status-verified">Verified ✓</span></td>
+                        <td class="qr-container">
+                            <img src="QR_Code.png" alt="QR Code" class="qr-code">
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm">View</button>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="pagination">
+                <div class="pagination-item">«</div>
+                <div class="pagination-item active">1</div>
+                <div class="pagination-item">2</div>
+                <div class="pagination-item">3</div>
+                <div class="pagination-item">4</div>
+                <div class="pagination-item">»</div>
+            </div>
+        </div>
+    </div>
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("You must be logged in as a seller.");
+                window.location.href = "login.html";
+                return;
+            }
+    
+            const seller = JSON.parse(localStorage.getItem("user"));
+    
+            async function fetchProducts() {
+                try {
+                    const response = await fetch(`http://your-backend-url/api/products/seller/${seller.id}`, {
+                        headers: { "Authorization": `Bearer ${token}` }
+                    });
+    
+                    const products = await response.json();
+                    document.getElementById("productTable").innerHTML = products.map(product => `
+                        <tr>
+                            <td>${product.name}</td>
+                            <td>${product.brand}</td>
+                            <td>${product.serial_number}</td>
+                            <td>${product.blockchain_hash ? "✅ Verified" : "❌ Not Verified"}</td>
+                            <td><a href="${product.qr_code}" target="_blank">View QR</a></td>
+                        </tr>
+                    `).join("");
+                } catch (error) {
+                    alert("Error fetching products: " + error.message);
+                }
+            }
+    
+            fetchProducts();
+        });
+    </script> -->
+</body>
+</html>

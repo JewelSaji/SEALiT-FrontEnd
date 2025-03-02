@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Registration | DNA Credibility System</title>
+    <style>
+        :root {
+            --primary: #c73295;
+            --primary-light: #880071;
+            --secondary: #5cb85c;
+            --danger: #d9534f;
+            --dark: #333;
+            --light: #f8f9fa;
+            --border: #ddd;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background-color: var(--primary);
+            padding: 1rem 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .navbar-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .navbar-menu a:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .dna-sample {
+            border: 2px dashed var(--border);
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            background-color: #fafafa;
+        }
+        
+        .upload-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .upload-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .btn-secondary {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e9ecef;
+        }
+        
+        .btn-success {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #4cae4c;
+        }
+        
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-footer {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .form-footer button {
+                width: 100%;
+            }
+        }
+        
+        .info-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        
+        .step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: 600;
+        }
+        
+        .step.active .step-number {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .step-title {
+            font-size: 0.9rem;
+        }
+        
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background-color: var(--border);
+            z-index: -1;
+        }
+        
+        .step.active:not(:last-child)::after {
+            background-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <img src=SEAL.png>
+        </div>
+        <div class="navbar-menu">
+            <a href="seller_dashboard.html">Dashboard</a>
+            <a href="product_list.html">My Products</a>
+            <a href="trust_score.html">Trust Score</a>
+            <a href="seller_management.html">Profile</a>
+            <a href="index.html">Logout</a>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Seller Dashboard</h1>
+            <div class="breadcrumb">
+                Dashboard > Product Registration
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Register New Product</h2>
+                <p>Add a new product to the blockchain for DNA-based verification</p>
+            </div>
+            
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Product Info</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">DNA Sample</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">QR Generation</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Confirmation</div>
+                </div>
+            </div>
+            
+            <!-- Registration Form -->
+            <form id="productRegistrationForm">
+                <div class="grid">
+                    <div class="form-group">
+                        <label for="productName">Product Name*</label>
+                        <input type="text" id="productName" required placeholder="Enter the full product name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="brandName">Brand*</label>
+                        <input type="text" id="brandName" required placeholder="Enter the brand name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">Category*</label>
+                        <select id="category" required>
+                            <option value="" disabled selected>Select product category</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="fashion">Fashion & Luxury</option>
+                            <option value="pharmaceuticals">Pharmaceuticals</option>
+                            <option value="cosmetics">Cosmetics</option>
+                            <option value="food">Food & Beverages</option>
+                            <option value="automotive">Automotive</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="serialNumber">Serial Number*</label>
+                        <input type="text" id="serialNumber" required placeholder="Enter unique serial number">
+                        <p class="info-text">This will be used for product verification</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="manufacturingDate">Manufacturing Date*</label>
+                        <input type="date" id="manufacturingDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expiryDate">Expiry Date (if applicable)</label>
+                        <input type="date" id="expiryDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="batchNumber">Batch Number</label>
+                        <input type="text" id="batchNumber" placeholder="Enter production batch number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="countryOfOrigin">Country of Origin*</label>
+                        <select id="countryOfOrigin" required>
+                            <option value="" disabled selected>Select country</option>
+                            <option value="usa">United States</option>
+                            <option value="china">China</option>
+                            <option value="india">India</option>
+                            <option value="germany">Germany</option>
+                            <option value="uk">United Kingdom</option>
+                            <option value="japan">Japan</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productDescription">Product Description</label>
+                    <textarea id="productDescription" rows="4" placeholder="Enter detailed product description"></textarea>
+                </div>
+                
+                <div class="dna-sample">
+                    <div class="upload-area" id="dnaUploadArea">
+                        <div class="upload-icon">📊</div>
+                        <h3>Upload DNA Signature File</h3>
+                        <p>Drag & drop your product's DNA signature file here or click to browse</p>
+                        <p class="info-text">Supported formats: .dna, .sig, .bin (Max 25MB)</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productImage">Product Image (Optional)</label>
+                    <input type="file" id="productImage" accept="image/*">
+                    <p class="info-text">This image will be displayed during verification</p>
+                </div>
+                
+                <div class="form-footer">
+                    <button type="button" class="btn btn-secondary">Save as Draft</button>
+                    <div>
+                        <a href="seller_dashboard.html"><button type="button" class="btn btn-primary" style="margin-right: 10px;">Back to Dashboard</button></a>
+                        <button type="submit" class="btn btn-success">Continue to DNA Sample</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("productForm").addEventListener("submit", async function (event) {
+                event.preventDefault();
+                
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    alert("You must be logged in as a seller to register a product.");
+                    return;
+                }
+                
+                const seller = JSON.parse(localStorage.getItem("user"));
+                if (seller.role !== "seller") {
+                    alert("Only sellers can register products.");
+                    return;
+                }
+                
+                const name = document.getElementById("productName").value;
+                const brand = document.getElementById("productBrand").value;
+                const serialNumber = document.getElementById("productSerial").value;
+                
+                try {
+                    const response = await fetch("http://your-backend-url/api/products/register", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            seller_id: seller.id,
+                            name,
+                            brand,
+                            serial_number: serialNumber
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        alert("Product registered successfully!");
+                        window.location.href = "seller_dashboard.html";
+                    } else {
+                        alert("Error: " + data.error);
+                    }
+                } catch (error) {
+                    alert("Request failed: " + error.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

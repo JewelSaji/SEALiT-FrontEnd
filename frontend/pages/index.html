@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProDNA - Product DNA Credibility System</title>
+    <style>
+        :root {
+            --primary: #c73295;
+            --primary-dark: #880071;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --gray: #94a3b8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            background-color: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-link.btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link.btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            padding: 80px 0;
+            gap: 60px;
+        }
+        
+        .hero-content {
+            flex: 1;
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 32px;
+            color: var(--gray);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+        
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+        
+        .section-header p {
+            font-size: 18px;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 16px;
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 0;
+        }
+        
+        .steps {
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+        
+        .step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            background-color: rgba(37, 99, 235, 0.05);
+            border-radius: 12px;
+            padding: 30px;
+        }
+        
+        .step-number {
+            background-color: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .step-content h3 {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+        
+        .step-content p {
+            color: var(--gray);
+            margin-bottom: 24px;
+        }
+        
+        /* Actions Section */
+        .actions {
+            background-color: white;
+            padding: 80px 0;
+        }
+        
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .action-card {
+            background-color: var(--light);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .action-icon {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--primary);
+            margin: 0 auto 24px;
+        }
+        
+        .action-card h3 {
+            font-size: 22px;
+            margin-bottom: 16px;
+        }
+        
+        .action-card p {
+            color: var(--gray);
+            margin-bottom: 24px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-logo-icon {
+            background-color: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .footer-column p {
+            color: var(--gray);
+            margin-bottom: 24px;
+        }
+        
+        .footer-column h4 {
+            font-size: 18px;
+            margin-bottom: 24px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+        
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .copyright {
+            color: var(--gray);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-link:hover {
+            background-color: var(--primary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .cta-buttons {
+                justify-content: center;
+            }
+            
+            .step {
+                flex-direction: column !important;
+                text-align: center;
+                gap: 30px;
+            }
+            
+            .step-number {
+                margin: 0 auto 20px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <span><img src="SEALbg.png" alt="DNA Logo" width="100px"></span>
+        
+                </a>
+                <div class="nav-links">
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                    <a href="login.html" class="nav-link btn">Login</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Verify Product Authenticity with DNA Technology</h1>
+                <p>Our blockchain-powered platform provides unalterable verification for your products, eliminating counterfeits and building consumer trust.</p>
+                <div class="cta-buttons" >
+                    <a href="seller-registration.html" class="btn btn-primary">Register as Seller</a>
+                    <a href="product-verification.html" class="btn btn-secondary">Verify Product</a>
+                    <a href="report-fraud.html" class="btn btn-secondary">Report Fake</a>
+                    <a href="secure_check.html" class="btn btn-secondary">Secure Check</a>
+                </div>
+            </div>
+            <!-- <div class="hero-image">
+                <img src="/api/placeholder/400x300.png" alt="Product DNA Verification" />
+            </div> -->
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose SEALit?</h2>
+                <p>Our advanced system ensures product authenticity through immutable blockchain verification.</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Blockchain Verification</h3>
+                    <p>Every product is registered on an immutable blockchain ledger, making fraud impossible.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🧬</div>
+                    <h3>DNA-Based Security</h3>
+                    <p>Unique product identifiers based on manufacturer DNA ensure one-of-a-kind verification.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Simple Scanning</h3>
+                    <p>Verify any product instantly using our mobile app or web scanner.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚠️</div>
+                    <h3>Fraud Reporting</h3>
+                    <p>Report counterfeit products directly through our platform for immediate action.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Trust Scores</h3>
+                    <p>Build and maintain seller credibility through our transparent trust scoring system.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered Support</h3>
+                    <p>Get assistance with our AI chatbot for verification issues and fraud reporting.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>How It Works</h2>
+                <p>Our platform provides a seamless experience for both sellers and buyers.</p>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-content">
+                        <div class="step-number">1</div>
+                        <h3>Seller Registration</h3>
+                        <p>Manufacturers register and verify their business credentials with our platform.</p>
+                        <a href="seller-registration.html" class="btn btn-primary">Register Now</a>
+                    </div>
+                    <div class="step-image">
+                        <img src="Reg.png"  width = 200px alt="Seller Registration" />
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-content">
+                        <div class="step-number">2</div>
+                        <h3>Product Registration</h3>
+                        <p>Each product is registered with a unique identifier and added to the blockchain.</p>
+                    </div>
+                    <div class="step-image">
+                        <img src="Registration _H.png" width="200px" alt="Product Registration" />
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-content">
+                        <div class="step-number">3</div>
+                        <h3>QR Code Generation</h3>
+                        <p>A unique QR code is generated for each product, linking to its blockchain record.</p>
+                    </div>
+                    <div class="step-image">
+                        <img src="QR_Code.png" width = 100px alt="QR Code Generation" />
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-content">
+                        <div class="step-number">4</div>
+                        <h3>Consumer Verification</h3>
+                        <p>Buyers can scan the QR code to instantly verify product authenticity.</p>
+                        <a href="product-verification.html" class="btn btn-primary">Verify Now</a>
+                    </div>
+                    <div class="step-image">
+                        <img src="Verification.png" width=200px alt="Consumer Verification" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Actions Section -->
+    <section class="actions">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Would You Like To Do?</h2>
+                <p>Choose from our range of services to get started</p>
+            </div>
+            
+            <div class="action-cards">
+                <div class="action-card">
+                    <div class="action-icon">🏢</div>
+                    <h3>Register as Seller</h3>
+                    <p>Join our platform to register and protect your products</p>
+                    <a href="seller-registration.html" class="btn btn-primary">Register</a>
+                </div>
+                
+                <div class="action-card">
+                    <div class="action-icon">🔍</div>
+                    <h3>Verify a Product</h3>
+                    <p>Scan a QR code or enter a product serial number</p>
+                    <a href="product-verification.html" class="btn btn-primary">Verify</a>
+                </div>
+                
+                <div class="action-card">
+                    <div class="action-icon">⚠️</div>
+                    <h3>Report Fraud</h3>
+                    <p>Submit a report about a suspected counterfeit</p>
+                    <a href="report-fraud.html" class="btn btn-primary">Report</a>
+                </div>
+                
+                <div class="action-card">
+                    <div class="action-icon">👤</div>
+                    <h3>Login to Account</h3>
+                    <p>Access your seller or buyer dashboard</p>
+                    <a href="login.html" class="btn btn-primary">Login</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <span> <img src="SEALbg.png" alt="DNA Logo" width="80px"></span>
+
+                    </div>
+                    <p>The ultimate solution for product authentication and counterfeiting prevention using blockchain technology.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="seller-registration.html">Register as Seller</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="product-verification.html">Product Verification</a></li>
+                        <li><a href="report-fraud.html">Fraud Reporting</a></li>
+                        <li><a href="chatbot.html">AI Assistant</a></li>
+                        <li><a href="trust-score.html">Trust Score</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-links">
+                        <li>Email: info@prodna.com</li>
+                        <li>Phone: +1 (555) 123-4567</li>
+                        <li>Address: 123 Blockchain Blvd, San Francisco, CA 94105</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2025 SEALit. All rights reserved.
+                </div>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link">f</a>
+                    <a href="#" class="social-link">in</a>
+                    <a href="#" class="social-link">t</a>
+                    <a href="#" class="social-link">ig</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("registerSellerBtn").addEventListener("click", function () {
+                window.location.href = "seller-registration.html";
+            });
+            
+            document.getElementById("loginBtn").addEventListener("click", function () {
+                window.location.href = "login.html";
+            });
+            
+            document.getElementById("verifyProductBtn").addEventListener("click", function () {
+                window.location.href = "product-verification.html";
+            });
+            
+            document.getElementById("reportFraudBtn").addEventListener("click", function () {
+                window.location.href = "buyer_dashboard.html#fraudReport";
+            });
+            
+            document.getElementById("learnMoreBtn").addEventListener("click", function () {
+                window.location.href = "about.html";
+            });
+        });
+    </script>
+</body>
+</html>
