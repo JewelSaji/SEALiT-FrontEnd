@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Fake Product - DNA Credibility System</title>
+    <style>
+        :root {
+            --primary: #c73295;
+            --primary-dark: #880071;
+            --secondary: #00d2ff;
+            --gray-light: #f5f7fa;
+            --gray-medium: #e4e8ef;
+            --gray-dark: #6c757d;
+            --danger: #dc3545;
+            --success: #28a745;
+            --warning: #ffc107;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--gray-light);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            padding: 1rem 2rem;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        
+        .page-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-medium);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-medium);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.1);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .file-upload input[type="file"] {
+            position: absolute;
+            font-size: 100px;
+            opacity: 0;
+            right: 0;
+            top: 0;
+            cursor: pointer;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--gray-medium);
+            padding: 2rem;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background-color: rgba(58, 123, 213, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 2rem;
+            color: var(--gray-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            gap: 10px;
+        }
+        
+        .preview-item {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .remove-preview {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-info {
+            background-color: #e1f5fe;
+            color: #0288d1;
+            border-left: 4px solid #0288d1;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 30px;
+            background-color: var(--gray-medium);
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.4s ease;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            font-weight: 500;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--gray-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: bold;
+            color: var(--gray-dark);
+        }
+        
+        .step.active .step-number {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .step.completed .step-number {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .step-title {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background-color: var(--gray-medium);
+            z-index: -1;
+        }
+        
+        .step.completed:not(:last-child)::after {
+            background-color: var(--success);
+        }
+        
+        @media screen and (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .nav-links li {
+                margin: 0;
+                margin-bottom: 0.5rem;
+            }
+            
+            .steps {
+                flex-direction: column;
+            }
+            
+            .step:not(:last-child)::after {
+                display: none;
+            }
+            
+            .step {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div >
+                <img src="SEALbg.png">
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="product-verification.html">Verify Product</a></li>
+                <li><a href="report-fraud.html">Report Fraud</a></li>
+                <li><a href="buyer_dashboard.html">Dashboard</a></li>
+                <li><a href="index.html">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1>Report Fake Product</h1>
+            <p>Help us maintain the integrity of our system by reporting counterfeit products</p>
+        </div>
+        
+        <div class="steps">
+            <div class="step active">
+                <div class="step-number">1</div>
+                <div class="step-title">Product Information</div>
+                <div class="step-desc">Enter details about the fake product</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-title">Evidence Upload</div>
+                <div class="step-desc">Provide photos and evidence</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-title">Review & Submit</div>
+                <div class="step-desc">Verify your report details</div>
+            </div>
+        </div>
+        
+        <div class="alert alert-info">
+            <strong>Important:</strong> Providing false information may result in account suspension. Make sure all details are accurate.
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title">Product Details</h2>
+            <form id="fraud-report-form">
+                <div class="form-group">
+                    <label for="product-name">Product Name*</label>
+                    <input type="text" id="product-name" name="productName" required placeholder="Enter the product name as shown on packaging">
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-brand">Brand*</label>
+                    <input type="text" id="product-brand" name="productBrand" required placeholder="Enter the brand name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="serial-number">Serial Number/QR Code*</label>
+                    <input type="text" id="serial-number" name="serialNumber" required placeholder="Enter the product serial number or QR code data">
+                </div>
+                
+                <div class="form-group">
+                    <label for="purchase-date">Purchase Date*</label>
+                    <input type="date" id="purchase-date" name="purchaseDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purchase-location">Purchase Location*</label>
+                    <input type="text" id="purchase-location" name="purchaseLocation" required placeholder="Store name, website, or marketplace">
+                </div>
+                
+                <div class="form-group">
+                    <label for="seller-name">Seller Name/ID*</label>
+                    <input type="text" id="seller-name" name="sellerName" required placeholder="Name of the seller or their ID on the platform">
+                </div>
+                
+                <h2 class="card-title">Fraud Details</h2>
+                
+                <div class="form-group">
+                    <label for="fraud-type">Type of Suspected Fraud*</label>
+                    <select id="fraud-type" name="fraudType" required>
+                        <option value="">Select fraud type</option>
+                        <option value="counterfeit">Counterfeit Product</option>
+                        <option value="tampered">Tampered DNA Tag</option>
+                        <option value="missing">Missing DNA Tag</option>
+                        <option value="misrepresentation">Product Misrepresentation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fraud-description">Detailed Description*</label>
+                    <textarea id="fraud-description" name="fraudDescription" rows="5" required placeholder="Provide a detailed description of why you believe this product is fake or fraudulent. Include any noticeable differences from authentic products."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Evidence Images (Required)</label>
+                    <div class="upload-area" id="upload-area">
+                        <div class="upload-icon">📷</div>
+                        <p>Drag and drop images here or click to upload</p>
+                        <p class="small">Upload clear photos of the product, packaging, and DNA tag (if present)</p>
+                        <input type="file" id="file-upload" name="evidenceImages" multiple accept="image/*">
+                    </div>
+                    <div class="preview-container" id="preview-container"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="additional-evidence">Additional Evidence (Optional)</label>
+                    <textarea id="additional-evidence" name="additionalEvidence" rows="3" placeholder="Any additional information that may help in the investigation"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact-email">Your Email Address*</label>
+                    <input type="email" id="contact-email" name="contactEmail" required placeholder="We'll contact you with updates on your report">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact-phone">Your Phone Number (Optional)</label>
+                    <input type="tel" id="contact-phone" name="contactPhone" placeholder="Alternative contact method">
+                </div>
+                
+                <div class="form-group" style="display: flex; justify-content: space-between;">
+                    <button type="button" class="btn btn-outline" id="save-draft">Save Draft</button>
+                    <button type="submit" class="btn btn-primary" id="submit-report">Continue to Evidence Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // File upload preview functionality
+        document.getElementById('file-upload').addEventListener('change', function(e) {
+            const files = e.target.files;
+            const previewContainer = document.getElementById('preview-container');
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (!file.type.match('image.*')) continue;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    
+                    const removeBtn = document.createElement('div');
+                    removeBtn.className = 'remove-preview';
+                    removeBtn.innerHTML = '×';
+                    removeBtn.onclick = function() {
+                        previewContainer.removeChild(previewItem);
+                    };
+                    
+                    previewItem.appendChild(img);
+                    previewItem.appendChild(removeBtn);
+                    previewContainer.appendChild(previewItem);
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Form submission
+        document.getElementById('fraud-report-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Here you would normally send the form data to your backend
+            // For now, let's simulate moving to the next step
+            
+            const steps = document.querySelectorAll('.step');
+            steps[0].classList.remove('active');
+            steps[0].classList.add('completed');
+            steps[1].classList.add('active');
+            
+            // In a real implementation, you would save the current form data
+            // and navigate to the next step page
+            
+            alert('Form validated! In a complete implementation, you would now proceed to the Evidence Upload step.');
+        });
+        
+        // Save draft functionality
+        document.getElementById('save-draft').addEventListener('click', function() {
+            alert('Draft saved successfully! You can continue this report later from your dashboard.');
+        });
+        
+        document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("fraudReportForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("You must be logged in to report fraud.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            const buyer = JSON.parse(localStorage.getItem("user"));
+            if (buyer.role !== "buyer") {
+                alert("Only buyers can report fraud.");
+                return;
+            }
+
+            const productId = document.getElementById("productId").value;
+            const sellerId = document.getElementById("sellerId").value;
+            const description = document.getElementById("description").value;
+            const imageFile = document.getElementById("fraudImage").files[0];
+
+            const formData = new FormData();
+            formData.append("buyer_id", buyer.id);
+            formData.append("product_id", productId);
+            formData.append("seller_id", sellerId);
+            formData.append("description", description);
+            formData.append("image", imageFile);
+
+            try {
+                const response = await fetch("http://your-backend-url/api/fraud/report", {
+                    method: "POST",
+                    headers: { "Authorization": `Bearer ${token}` },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert("Fraud report submitted successfully!");
+                    window.location.href = "fraud_status.html";
+                } else {
+                    alert("Error: " + data.error);
+                }
+            } catch (error) {
+                alert("Request failed: " + error.message);
+            }
+        });
+    });
+    </script>
+</body>
+</html>
