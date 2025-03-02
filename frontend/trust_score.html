@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Trust Score | Product DNA Verification</title>
+  <style>
+    :root {
+      --primary: #c73295;
+      --primary-dark: #880071;
+      --secondary: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --gray-light: #f3f4f6;
+      --gray: #9ca3af;
+      --gray-dark: #4b5563;
+      --white: #ffffff;
+      --black: #000000;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f9fafb;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: var(--white);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .nav-link {
+      text-decoration: none;
+      color: var(--gray-dark);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .nav-link:hover {
+      color: var(--primary);
+    }
+    
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .card {
+      background-color: var(--white);
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    h1, h2, h3 {
+      color: #111827;
+    }
+    
+    .score-container {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      margin-bottom: 2rem;
+    }
+    
+    .score-circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: conic-gradient(var(--secondary) 0% 85%, #e5e7eb 85% 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .score-circle::before {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background-color: white;
+    }
+    
+    .score-value {
+      position: relative;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+    
+    .score-label {
+      position: absolute;
+      bottom: -2rem;
+      font-weight: 500;
+      color: var(--gray-dark);
+      width: 100%;
+      text-align: center;
+    }
+    
+    .score-details {
+      flex: 1;
+    }
+    
+    .score-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    
+    .score-item-label {
+      font-weight: 500;
+    }
+    
+    .score-item-value {
+      font-weight: 600;
+    }
+    
+    .positive {
+      color: var(--secondary);
+    }
+    
+    .neutral {
+      color: var(--warning);
+    }
+    
+    .negative {
+      color: var(--danger);
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background-color: #e5e7eb;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .progress-value {
+      height: 100%;
+      border-radius: 4px;
+      background-color: var(--secondary);
+      width: 85%;
+    }
+    
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .history-table th, 
+    .history-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .history-table th {
+      background-color: var(--gray-light);
+      font-weight: 600;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .badge-success {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+    
+    .badge-warning {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    
+    .badge-danger {
+      background-color: #fee2e2;
+      color: #b91c1c;
+    }
+    
+    .recommendations {
+      margin-top: 1rem;
+    }
+    
+    .recommendation-item {
+      display: flex;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .recommendation-icon {
+      color: var(--primary);
+      font-size: 1.25rem;
+    }
+    
+    .button {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+    
+    .button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .button-outline {
+      background-color: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .button-outline:hover {
+      background-color: rgba(59, 130, 246, 0.05);
+    }
+    
+    footer {
+      background-color: #1f2937;
+      color: white;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .footer-link {
+      color: #d1d5db;
+      text-decoration: none;
+    }
+    
+    .footer-link:hover {
+      color: white;
+    }
+    
+    .copyright {
+      margin-top: 1.5rem;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div >
+        <span><image src=SEAlbg.png width=100px></image></span>
+        <!-- <span>ProductDNA</span> -->
+      </div>
+      <div class="nav-links">
+        <a href="seller_dashboard.html" class="nav-link">Dashboard</a>
+        <a href="product_registration.html" class="nav-link">Register Product</a>
+        <a href="product_list.html" class="nav-link">My Products</a>
+        <a href="trust_score.html" class="nav-link active">Trust Score</a>
+        <a href="reported_frauds.html" class="nav-link">Reports</a>
+      </div>
+      <div class="user-profile">
+        <div class="user-avatar">JS</div>
+        <span>John's Electronics</span>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h1>Seller Trust Score</h1>
+        <div>
+          <button class="button button-outline">Download Report</button>
+          <button class="button">Improve Score</button>
+        </div>
+      </div>
+      
+      <div class="score-container">
+        <div class="score-circle">
+          <div class="score-value">85</div>
+          <div class="score-label">Trust Score</div>
+        </div>
+        
+        <div class="score-details">
+          <div class="progress-bar">
+            <div class="progress-value"></div>
+          </div>
+          
+          <div class="score-item">
+            <span class="score-item-label">Score Status:</span>
+            <span class="score-item-value positive">Good Standing</span>
+          </div>
+          
+          <div class="score-item">
+            <span class="score-item-label">Products Verified:</span>
+            <span class="score-item-value">127 of 132 (96%)</span>
+          </div>
+          
+          <div class="score-item">
+            <span class="score-item-label">Customer Complaints:</span>
+            <span class="score-item-value">3 (Last 6 months)</span>
+          </div>
+          
+          <div class="score-item">
+            <span class="score-item-label">Response Rate:</span>
+            <span class="score-item-value positive">98%</span>
+          </div>
+          
+          <div class="score-item">
+            <span class="score-item-label">Average Resolution Time:</span>
+            <span class="score-item-value">2.3 days</span>
+          </div>
+          
+          <div class="score-item">
+            <span class="score-item-label">Last Score Update:</span>
+            <span class="score-item-value">February 26, 2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>Trust Score History</h2>
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Score</th>
+            <th>Change</th>
+            <th>Reason</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Feb 26, 2025</td>
+            <td>85</td>
+            <td class="positive">+2</td>
+            <td>Improved response time</td>
+            <td><span class="badge badge-success">Good Standing</span></td>
+          </tr>
+          <tr>
+            <td>Jan 15, 2025</td>
+            <td>83</td>
+            <td class="negative">-1</td>
+            <td>1 Product complaint received</td>
+            <td><span class="badge badge-success">Good Standing</span></td>
+          </tr>
+          <tr>
+            <td>Dec 10, 2024</td>
+            <td>84</td>
+            <td class="positive">+3</td>
+            <td>20 Products verified successfully</td>
+            <td><span class="badge badge-success">Good Standing</span></td>
+          </tr>
+          <tr>
+            <td>Nov 05, 2024</td>
+            <td>81</td>
+            <td class="negative">-2</td>
+            <td>Late response to customer inquiry</td>
+            <td><span class="badge badge-warning">Needs Improvement</span></td>
+          </tr>
+          <tr>
+            <td>Oct 15, 2024</td>
+            <td>83</td>
+            <td>-</td>
+            <td>Initial score calculation</td>
+            <td><span class="badge badge-success">Good Standing</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="card">
+      <h2>Recommendations to Improve Your Score</h2>
+      <div class="recommendations">
+        <div class="recommendation-item">
+          <div class="recommendation-icon">✓</div>
+          <div>
+            <strong>Verify Remaining Products</strong>
+            <p>You have 5 products that still need blockchain verification. Complete the verification process to increase your trust score.</p>
+          </div>
+        </div>
+        <div class="recommendation-item">
+          <div class="recommendation-icon">✓</div>
+          <div>
+            <strong>Improve Response Time</strong>
+            <p>Aim to respond to all customer inquiries within 24 hours to enhance your trust score.</p>
+          </div>
+        </div>
+        <div class="recommendation-item">
+          <div class="recommendation-icon">✓</div>
+          <div>
+            <strong>Upload Additional Documentation</strong>
+            <p>Provide manufacturing certificates for your high-value products to boost verification confidence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="footer-content">
+      <div>
+        <div >
+          <span><image src=SEAlbg.png width=80px></image></span>
+          <!-- <span>ProductDNA</span> -->
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="about.html" class="footer-link">About</a>
+        <a href="about.html" class="footer-link">Privacy Policy</a>
+        <a href="about.html" class="footer-link">Terms of Service</a>
+        <a href="contact.html" class="footer-link">Contact Support</a>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2025 SEALit. All rights reserved.
+    </div>
+  </footer>
+  <!-- <script>
+    document.addEventListener("DOMContentLoaded", async function () {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("You must be logged in as a seller.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        const seller = JSON.parse(localStorage.getItem("user"));
+        if (seller.role !== "seller") {
+            alert("Only sellers can view their trust score.");
+            return;
+        }
+
+        async function fetchTrustScore() {
+            try {
+                const response = await fetch(`http://your-backend-url/api/seller/trust-score/${seller.id}`, {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById("trustScoreValue").innerText = data.trust_score;
+                    document.getElementById("trustRemarks").innerText = data.remarks;
+                } else {
+                    alert("Error fetching trust score: " + data.error);
+                }
+            } catch (error) {
+                alert("Request failed: " + error.message);
+            }
+        }
+
+        fetchTrustScore();
+    }); -->
+</script>
+</body>
+</html>

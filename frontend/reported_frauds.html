@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reported Frauds | DNA-Based Credibility System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .status-pending {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+        .status-investigating {
+            background-color: #DBEAFE;
+            color: #1E40AF;
+        }
+        .status-confirmed {
+            background-color: #FEE2E2;
+            color: #B91C1C;
+        }
+        .status-resolved {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+        .status-dismissed {
+            background-color: #E5E7EB;
+            color: #4B5563;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="SEALbg.png" width="100px">
+                <h1 class="text-xl font-bold text-blue-900"></h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i class="fas fa-bell text-gray-400"></i>
+                    </span>
+                    <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-600"></span>
+                </div>
+                <div class="flex items-center">
+                    <img src="ironman.png" alt="Admin Avatar" class="h-8 w-8 rounded-full mr-2">
+                    <span class="text-sm font-medium text-gray-700">Admin User</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">Reported Frauds</h2>
+                <p class="text-gray-600">Review and manage reported fake product cases</p>
+            </div>
+            <div class="flex space-x-3">
+                <select class="bg-white border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="all">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="investigating">Investigating</option>
+                    <option value="confirmed">Confirmed Fake</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="dismissed">Dismissed</option>
+                </select>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <i class="fas fa-filter mr-2"></i>Apply Filter
+                </button>
+                <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <i class="fas fa-download mr-2"></i>Export
+                </button>
+            </div>
+        </div>
+
+        <!-- Search and Time Filter -->
+        <div class="bg-white p-4 rounded-lg shadow mb-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="relative flex-1">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </span>
+                    <input type="text" placeholder="Search by case ID, product, or seller" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex space-x-3">
+                    <select class="bg-white border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="all">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="quarter">Last 3 Months</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cases Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Case ID
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Reported Date
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Product Details
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Seller Details
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            AI Analysis
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <!-- Case 1 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-blue-600">#FR-2025-0001</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Feb 26, 2025</div>
+                            <div class="text-xs text-gray-500">09:32 AM</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">Premium Leather Wallet</div>
+                            <div class="text-xs text-gray-500">Serial: LW78923X</div>
+                            <div class="text-xs text-gray-500">Brand: LuxLeather</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">Fashion Outlet NYC</div>
+                            <div class="text-xs text-gray-500">ID: SLR-5529</div>
+                            <div class="text-xs text-gray-500">Trust Score: 3.2/5</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs font-medium rounded-full status-investigating">
+                                Investigating
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">87% Likely Fake</div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 87%"></div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="text-green-600 hover:text-green-900">
+                                    <i class="fas fa-check-circle"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-times-circle"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Case 2 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-blue-600">#FR-2025-0002</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Feb 25, 2025</div>
+                            <div class="text-xs text-gray-500">14:15 PM</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">Designer Sunglasses</div>
+                            <div class="text-xs text-gray-500">Serial: RB3025-L0205</div>
+                            <div class="text-xs text-gray-500">Brand: RayBan</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">Sunny Optics</div>
+                            <div class="text-xs text-gray-500">ID: SLR-3742</div>
+                            <div class="text-xs text-gray-500">Trust Score: 4.1/5</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs font-medium rounded-full status-confirmed">
+                                Confirmed Fake
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">95% Likely Fake</div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-flag"></i>
+                                </button>
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-history"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Case 3 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-blue-600">#FR-2025-0003</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Feb 25, 2025</div>
+                            <div class="text-xs text-gray-500">11:03 AM</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">Smart Watch E3 Pro</div>
+                            <div class="text-xs text-gray-500">Serial: SW-PRO-6782X</div>
+                            <div class="text-xs text-gray-500">Brand: TechWear</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">Gadget Galaxy</div>
+                            <div class="text-xs text-gray-500">ID: SLR-4211</div>
+                            <div class="text-xs text-gray-500">Trust Score: 4.9/5</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs font-medium rounded-full status-dismissed">
+                                Dismissed
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">12% Likely Fake</div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 12%"></div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-history"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Case 4 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-blue-600">#FR-2025-0004</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Feb 24, 2025</div>
+                            <div class="text-xs text-gray-500">16:47 PM</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">Luxury Perfume</div>
+                            <div class="text-xs text-gray-500">Serial: CHN-5599</div>
+                            <div class="text-xs text-gray-500">Brand: Chanlel</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">Beauty Emporium</div>
+                            <div class="text-xs text-gray-500">ID: SLR-1832</div>
+                            <div class="text-xs text-gray-500">Trust Score: 2.8/5</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs font-medium rounded-full status-resolved">
+                                Resolved
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">98% Likely Fake</div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 98%"></div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-file-alt"></i>
+                                </button>
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-history"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Case 5 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-blue-600">#FR-2025-0005</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Feb 22, 2025</div>
+                            <div class="text-xs text-gray-500">10:22 AM</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">Limited Edition Sneakers</div>
+                            <div class="text-xs text-gray-500">Serial: YZ-350-B-RED</div>
+                            <div class="text-xs text-gray-500">Brand: Adibas</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">Kicks-R-Us</div>
+                            <div class="text-xs text-gray-500">ID: SLR-6721</div>
+                            <div class="text-xs text-gray-500">Trust Score: 1.7/5</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs font-medium rounded-full status-pending">
+                                Pending
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Awaiting Analysis</div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="bg-gray-400 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-play-circle"></i>
+                                </button>
+                                <button class="text-yellow-600 hover:text-yellow-900">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- Pagination -->
+            <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                <div class="flex-1 flex justify-between sm:hidden">
+                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        Previous
+                    </a>
+                    <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        Next
+                    </a>
+                </div>
+                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">24</span> results
+                        </p>
+                    </div>
+                    <div>
+                        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <span class="sr-only">Previous</span>
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                            <a href="#" aria-current="page" class="z-10 bg-blue-50 border-blue-500 text-blue-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                1
+                            </a>
+                            <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                2
+                            </a>
+                            <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                3
+                            </a>
+                            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                                ...
+                            </span>
+                            <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                5
+                            </a>
+                            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <span class="sr-only">Next</span>
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Case Modal (Hidden by default) -->
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden" id="case-modal">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-2/3 shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center pb-3">
+                <h3 class="text-xl font-bold text-gray-800">Fraud Case #FR-2025-0001</h3>
+                <button class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mt-2 px-4 pb-4">
+                <!-- Modal content would go here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white mt-8 py-4 border-t">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm text-gray-600">© 2025 SEALit. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="about.html" class="text-sm text-gray-600 hover:text-blue-600">Terms</a>
+                    <a href="about.html" class="text-sm text-gray-600 hover:text-blue-600">Privacy</a>
+                    <a href="chatbot.html" class="text-sm text-gray-600 hover:text-blue-600">Help</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- <script>
+        // This would contain JavaScript for the page functionality
+        // For example, handling filters, showing modals, etc.
+    document.addEventListener("DOMContentLoaded", async function () {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("You must be logged in as an admin.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        async function fetchFraudReports() {
+            try {
+                const response = await fetch("http://your-backend-url/api/admin/frauds", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+
+                const reports = await response.json();
+                document.getElementById("fraudTable").innerHTML = reports.map(report => `
+                    <tr>
+                        <td>${report.case_id}</td>
+                        <td>${new Date(report.reported_date).toLocaleDateString()}</td>
+                        <td>${report.product_name} (${report.serial_number})</td>
+                        <td>${report.seller_name}</td>
+                        <td class="status-${report.status.toLowerCase()}">${report.status}</td>
+                        <td>${report.ai_detected ? "Fake" : "Authentic"}</td>
+                        <td>
+                            <select onchange="updateStatus(${report.id}, this.value)">
+                                <option value="pending" ${report.status === "pending" ? "selected" : ""}>Pending</option>
+                                <option value="investigating" ${report.status === "investigating" ? "selected" : ""}>Investigating</option>
+                                <option value="confirmed" ${report.status === "confirmed" ? "selected" : ""}>Confirmed Fake</option>
+                                <option value="resolved" ${report.status === "resolved" ? "selected" : ""}>Resolved</option>
+                                <option value="dismissed" ${report.status === "dismissed" ? "selected" : ""}>Dismissed</option>
+                            </select>
+                        </td>
+                    </tr>
+                `).join("");
+            } catch (error) {
+                alert("Error fetching fraud reports: " + error.message);
+            }
+        }
+
+        async function updateStatus(reportId, status) {
+            try {
+                const response = await fetch(`http://your-backend-url/api/admin/frauds/${reportId}/update`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert("Status updated successfully!");
+                    fetchFraudReports();
+                } else {
+                    alert("Error: " + result.error);
+                }
+            } catch (error) {
+                alert("Request failed: " + error.message);
+            }
+        }
+
+        fetchFraudReports();
+    });
+    </script> -->
+</body>
+</html>

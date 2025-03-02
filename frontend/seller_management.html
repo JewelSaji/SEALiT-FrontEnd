@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Seller Management</title>
+    <style>
+        :root {
+            --primary: #c73295;
+            --primary-dark: #880071;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #ca8a04;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9fafb;
+            color: var(--gray-800);
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            background-color: #1e293b;
+            color: white;
+            padding: 1.5rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .brand-name {
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-left: 0.75rem;
+        }
+        
+        .nav-item {
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .nav-item.active {
+            border-left: 4px solid var(--primary);
+        }
+        
+        .nav-text {
+            margin-left: 0.75rem;
+        }
+        
+        /* Main content styles */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .page-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 0.75rem;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        /* Card styles */
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        /* Search and filter */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .search-box {
+            flex: 1;
+            position: relative;
+            min-width: 250px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-600);
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .filter-select {
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.375rem;
+            background-color: white;
+            font-size: 0.875rem;
+        }
+        
+        /* Table styles */
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+        
+        th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background-color: var(--gray-100);
+            border-bottom: 1px solid var(--gray-300);
+            color: var(--gray-700);
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+            color: var(--gray-700);
+        }
+        
+        tr:hover {
+            background-color: var(--gray-100);
+        }
+        
+        /* Status badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background-color: rgba(22, 163, 74, 0.1);
+            color: var(--success);
+        }
+        
+        .badge-warning {
+            background-color: rgba(202, 138, 4, 0.1);
+            color: var(--warning);
+        }
+        
+        .badge-danger {
+            background-color: rgba(220, 38, 38, 0.1);
+            color: var(--danger);
+        }
+        
+        /* Action buttons */
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray-300);
+            color: var(--gray-700);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--gray-100);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #b91c1c;
+        }
+        
+        .btn-icon {
+            margin-right: 0.375rem;
+            font-size: 0.875rem;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+        
+        .page-info {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+        
+        .page-controls {
+            display: flex;
+            gap: 0.25rem;
+        }
+        
+        .page-btn {
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.375rem;
+            background-color: white;
+            border: 1px solid var(--gray-300);
+            color: var(--gray-700);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .page-btn:hover, .page-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .modal {
+            background-color: white;
+            border-radius: 0.5rem;
+            width: 500px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-600);
+        }
+        
+        .modal-body {
+            padding: 1.25rem;
+        }
+        
+        .modal-footer {
+            padding: 1.25rem;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+        
+        /* Form */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.375rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                padding: 1rem 0;
+            }
+            
+            .brand {
+                justify-content: center;
+                padding: 0 0 1rem;
+            }
+            
+            .brand-name, .nav-text {
+                display: none;
+            }
+            
+            .nav-item {
+                justify-content: center;
+                padding: 0.75rem;
+            }
+            
+            .main-content {
+                margin-left: 60px;
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <span class="brand-name">DNA Verify</span>
+            </div>
+            
+            <nav>
+                <a href="seller_dashboard.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                
+                <a href="seller_management.html" class="nav-item active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span class="nav-text">Seller Management</span>
+                </a>
+                
+                <a href="blacklisted_sellers.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <line x1="17" y1="8" x2="23" y2="8"></line>
+                        <line x1="20" y1="5" x2="20" y2="11"></line>
+                    </svg>
+                    <span class="nav-text">Blacklisted Sellers</span>
+                </a>
+                
+                <a href="reported_frauds.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                        <line x1="4" y1="22" x2="4" y2="15"></line>
+                    </svg>
+                    <span class="nav-text">Reported Frauds</span>
+                </a>
+                
+                <a href="chatbot.html" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    <span class="nav-text">Support</span>
+                </a>
+                
+                <a href="#" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    <span class="nav-text">Settings</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <h1 class="page-title">Seller Management</h1>
+                
+                <div class="user-menu">
+                    <div class="user-avatar">A</div>
+                    <span class="user-name">Admin</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">All Sellers</h2>
+                    
+                    <button class="btn btn-primary" onclick="openAddSellerModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Add Seller
+                    </button>
+                </div>
+                
+                <div class="controls">
+                    <div class="search-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" placeholder="Search sellers...">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <select class="filter-select">
+                            <option value="">Status: All</option>
+                            <option value="active">Active</option>
+                            <option value="pending">Pending</option>
+                            <option value="suspended">Suspended</option>
+                        </select>
+                        
+                        <select class="filter-select">
+                            <option value="">Sort By: Latest</option>
+                            <option value="name">Name</option>
+                            <option value="trust-desc">Trust Score (High to Low)</option>
+                            <option value="trust-asc">Trust Score (Low to High)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Seller ID</th>
+                                <th>Business Name</th>
+                                <th>Contact Info</th>
+                                <th>Registered On</th>
+                                <th>Status</th>
+                                <th>Trust Score</th>
+                                <th>Products</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#SLR001</td>
+                                <td>TechGadgets Inc.</td>
+                                <td>john@techgadgets.com</td>
+                                <td>Jan 15, 2025</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>93%</td>
+                                <td>42</td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn btn-outline" onclick="openViewSellerModal('SLR001')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            View
+                                        </button>
+                                        <button class="btn btn-primary" onclick="openEditSellerModal('SLR001')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                            Edit
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#SLR002</td>
+                                <td>Fashion Forward Ltd.</td>
+                                <td>sarah@fashionforward.com</td>
+                                <td>Jan 18, 2025</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>87%</td>
+                                <td>38</td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn btn-outline" onclick="openViewSellerModal('SLR002')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            View
+                                        </button>
+                                        <button class="btn btn-primary" onclick="openEditSellerModal('SLR002')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                            Edit
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#SLR003</td>
+                                <td>HomeGoods Plus</td>
+                                <td>mike@homegoodsplus.com</td>
+                                <td>Jan 20, 2025</td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                                <td>N/A</td>
+                                <td>0</td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn btn-outline" onclick="openViewSellerModal('SLR003')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            View
+                                        </button>
+                                        <button class="btn btn-primary" onclick="openEditSellerModal('SLR003')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                            Edit
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#SLR004</td>
+                                <td>Electronics Hub</td>
+                                <td>info@electronicshub.com</td>
+                                <td>Jan 25, 2025</td>
+                                <td><span class="badge badge-danger">Suspended</span></td>
+                                <td>65%</td>
+                                <td>27</td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn btn-outline" onclick="openViewSellerModal('SLR004')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            View
+                                        </button>
+                                        <button class="btn btn-danger" onclick="openBlacklistModal('SLR004')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                                <circle cx="9" cy="7" r="4"></circle>
+                                                <line x1="21" y1="11" x2="15" y2="11"></line>
+                                            </svg>
+                                            Blacklist
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#SLR005</td>
+                                <td>Luxury Watches Co.</td>
+                                <td>sales@luxwatches.com</td>
+                                <td>Feb 2, 2025</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>96%</td>
+                                <td>15</td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn btn-outline" onclick="openViewSellerModal('SLR005')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            View
+                                        </button>
+                                        <button class="btn btn-primary" onclick="openEditSellerModal('SLR005')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                            Edit
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <div class="page-info">
+                        Showing 1-5 of 24 sellers
+                    </div>
+                    
+                    <div class="page-controls">
+                        <button class="page-btn" disabled>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"></path>
+                            </svg>
+                        </button>
+                        <button class="page-btn" disabled>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 18l-6-6 6-6"></path>
+                            </svg>
+                        </button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">4</button>
+                        <button class="page-btn">5</button>
+                        <button class="page-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 18l6-6-6-6"></path>
+                            </svg>
+                        </button>
+                        <button class="page-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M13 17l5-5-5-5M6 17l5-5-5-5"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- View Seller Modal -->
+    <div class="modal-backdrop" id="viewSellerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Seller Details</h3>
+                <button class="modal-close" onclick="closeModal('viewSellerModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Seller ID</label>
+                    <input type="text" class="form-control" value="#SLR001" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Business Name</label>
+                    <input type="text" class="form-control" value="TechGadgets Inc." readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Business Type</label>
+                    <input type="text" class="form-control" value="Electronics Retailer" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" value="john@techgadgets.com" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" value="+1 (555) 123-4567" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Business Address</label>
+                    <textarea class="form-control" readonly>123 Tech Lane, Silicon Valley, CA 94024, USA</textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Registration Date</label>
+                    <input type="text" class="form-control" value="January 15, 2025" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Verification Status</label>
+                    <input type="text" class="form-control" value="Verified" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Trust Score</label>
+                    <input type="text" class="form-control" value="93%" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Total Products</label>
+                    <input type="text" class="form-control" value="42" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Activity</label>
+                    <input type="text" class="form-control" value="February 28, 2025 (1 day ago)" readonly>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('viewSellerModal')">Close</button>
+                <button class="btn btn-primary" onclick="closeModal('viewSellerModal'); openEditSellerModal('SLR001')">Edit Seller</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Seller Modal -->
+    <div class="modal-backdrop" id="editSellerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Seller</h3>
+                <button class="modal-close" onclick="closeModal('editSellerModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Seller ID</label>
+                    <input type="text" class="form-control" value="#SLR001" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Business Name</label>
+                    <input type="text" class="form-control" value="TechGadgets Inc.">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Business Type</label>
+                    <select class="form-control">
+                        <option value="electronics">Electronics Retailer</option>
+                        <option value="fashion">Fashion & Apparel</option>
+                        <option value="home">Home & Garden</option>
+                        <option value="beauty">Beauty & Personal Care</option>
+                        <option value="food">Food & Beverages</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" value="john@techgadgets.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" value="+1 (555) 123-4567">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Business Address</label>
+                    <textarea class="form-control">123 Tech Lane, Silicon Valley, CA 94024, USA</textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-control">
+                        <option value="active">Active</option>
+                        <option value="pending">Pending</option>
+                        <option value="suspended">Suspended</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Verification Requirements</label>
+                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                        <div style="flex: 1;">
+                            <input type="checkbox" id="business_license" checked>
+                            <label for="business_license">Business License</label>
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="checkbox" id="id_verification" checked>
+                            <label for="id_verification">ID Verification</label>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                        <div style="flex: 1;">
+                            <input type="checkbox" id="address_proof" checked>
+                            <label for="address_proof">Address Proof</label>
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="checkbox" id="bank_account" checked>
+                            <label for="bank_account">Bank Account</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-control" placeholder="Add administrative notes here...">High-volume seller with good compliance record. Recently added premium product line.</textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('editSellerModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveSellerChanges()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Seller Modal -->
+    <div class="modal-backdrop" id="addSellerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Seller</h3>
+                <button class="modal-close" onclick="closeModal('addSellerModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Business Name</label>
+                    <input type="text" class="form-control" placeholder="Enter business name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Business Type</label>
+                    <select class="form-control">
+                        <option value="">Select business type</option>
+                        <option value="electronics">Electronics Retailer</option>
+                        <option value="fashion">Fashion & Apparel</option>
+                        <option value="home">Home & Garden</option>
+                        <option value="beauty">Beauty & Personal Care</option>
+                        <option value="food">Food & Beverages</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" placeholder="Enter email address">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" placeholder="Enter phone number">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Business Address</label>
+                    <textarea class="form-control" placeholder="Enter business address"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Initial Status</label>
+                    <select class="form-control">
+                        <option value="pending">Pending</option>
+                        <option value="active">Active</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Required Verification Documents</label>
+                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                        <div style="flex: 1;">
+                            <input type="checkbox" id="new_business_license" checked>
+                            <label for="new_business_license">Business License</label>
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="checkbox" id="new_id_verification" checked>
+                            <label for="new_id_verification">ID Verification</label>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                        <div style="flex: 1;">
+                            <input type="checkbox" id="new_address_proof" checked>
+                            <label for="new_address_proof">Address Proof</label>
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="checkbox" id="new_bank_account" checked>
+                            <label for="new_bank_account">Bank Account</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-control" placeholder="Add administrative notes here..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('addSellerModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addNewSeller()">Add Seller</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Blacklist Seller Modal -->
+    <div class="modal-backdrop" id="blacklistModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Blacklist Seller</h3>
+                <button class="modal-close" onclick="closeModal('blacklistModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Seller ID</label>
+                    <input type="text" class="form-control" value="#SLR004" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Business Name</label>
+                    <input type="text" class="form-control" value="Electronics Hub" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Reason for Blacklisting</label>
+                    <select class="form-control">
+                        <option value="">Select reason</option>
+                        <option value="counterfeit">Selling Counterfeit Products</option>
+                        <option value="fraud">Fraudulent Activity</option>
+                        <option value="policy">Policy Violations</option>
+                        <option value="complaints">Multiple Customer Complaints</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Detailed Explanation</label>
+                    <textarea class="form-control" placeholder="Provide detailed explanation for blacklisting..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Evidence Reference</label>
+                    <input type="text" class="form-control" placeholder="Case #, Report ID, etc.">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Duration</label>
+                    <select class="form-control">
+                        <option value="temporary">Temporary (30 days)</option>
+                        <option value="extended">Extended (90 days)</option>
+                        <option value="permanent">Permanent</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="notify_seller">
+                    <label for="notify_seller">Send notification to seller</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('blacklistModal')">Cancel</button>
+                <button class="btn btn-danger" onclick="blacklistSeller()">Confirm Blacklist</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- <script>
+        // Modal functionality
+        function openViewSellerModal(sellerId) {
+            document.getElementById('viewSellerModal').style.display = 'flex';
+            // In a real application, you would fetch the seller data based on the sellerId
+        }
+        
+        function openEditSellerModal(sellerId) {
+            document.getElementById('editSellerModal').style.display = 'flex';
+            // In a real application, you would fetch the seller data based on the sellerId
+        }
+        
+        function openAddSellerModal() {
+            document.getElementById('addSellerModal').style.display = 'flex';
+        }
+        
+        function openBlacklistModal(sellerId) {
+            document.getElementById('blacklistModal').style.display = 'flex';
+            // In a real application, you would fetch the seller data based on the sellerId
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        function saveSellerChanges() {
+            // In a real application, this would save the changes to the server
+            alert('Seller information updated successfully!');
+            closeModal('editSellerModal');
+        }
+        
+        function addNewSeller() {
+            // In a real application, this would add a new seller to the system
+            alert('New seller added successfully!');
+            closeModal('addSellerModal');
+        }
+        
+        function blacklistSeller() {
+            // In a real application, this would blacklist the seller
+            alert('Seller has been blacklisted!');
+            closeModal('blacklistModal');
+        }
+    document.addEventListener("DOMContentLoaded", function () {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("You must be logged in as an admin.");
+            window.location.href = "login.html";
+            return;
+        }
+        
+        const admin = JSON.parse(localStorage.getItem("user"));
+        if (admin.role !== "admin") {
+            alert("Access denied: Admins only.");
+            window.location.href = "index.html";
+            return;
+        }
+        
+        // Fetch all sellers
+        async function fetchSellers() {
+            const response = await fetch("http://your-backend-url/api/admin/sellers", {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            const sellers = await response.json();
+            document.getElementById("sellerList").innerHTML = sellers.map(seller => `
+                <tr>
+                    <td>${seller.name}</td>
+                    <td>${seller.email}</td>
+                    <td>${seller.trust_score}</td>
+                    <td>
+                        <button onclick="blacklistSeller(${seller.id})">Blacklist</button>
+                    </td>
+                </tr>
+            `).join("");
+        }
+        
+        // Blacklist a seller
+        async function blacklistSeller(sellerId) {
+            if (!confirm("Are you sure you want to blacklist this seller?")) return;
+            
+            const response = await fetch(`http://your-backend-url/api/admin/blacklist/${sellerId}`, {
+                method: "POST",
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            const result = await response.json();
+            alert(result.message);
+            fetchSellers();
+        }
+        
+        fetchSellers();
+    });
+    </script> -->
+</body>
+</html>

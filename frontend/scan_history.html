@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan History | Product DNA Verification</title>
+  <style>
+    :root {
+      --primary: #c73295;
+      --primary-dark: #880071;
+      --secondary: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --gray-light: #f3f4f6;
+      --gray: #9ca3af;
+      --gray-dark: #4b5563;
+      --white: #ffffff;
+      --black: #000000;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f9fafb;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: var(--white);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .nav-link {
+      text-decoration: none;
+      color: var(--gray-dark);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      color: var(--primary);
+    }
+    
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .card {
+      background-color: var(--white);
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    h1, h2, h3 {
+      color: #111827;
+    }
+    
+    .scan-filter {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .search-bar {
+      flex: 1;
+      display: flex;
+    }
+    
+    .search-input {
+      flex: 1;
+      padding: 0.5rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.25rem 0 0 0.25rem;
+      font-size: 1rem;
+    }
+    
+    .search-button {
+      padding: 0.5rem 1rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0 0.25rem 0.25rem 0;
+      cursor: pointer;
+    }
+    
+    .filter-select {
+      padding: 0.5rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.25rem;
+      font-size: 1rem;
+      background-color: white;
+    }
+    
+    .scan-stats {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .stat-card {
+      flex: 1;
+      background-color: var(--white);
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-left: 4px solid;
+    }
+    
+    .stat-card.authentic {
+      border-color: var(--secondary);
+    }
+    
+    .stat-card.suspicious {
+      border-color: var(--warning);
+    }
+    
+    .stat-card.counterfeit {
+      border-color: var(--danger);
+    }
+    
+    .stat-card.total {
+      border-color: var(--primary);
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--gray-dark);
+    }
+    
+    .scans-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .scans-table th, 
+    .scans-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .scans-table th {
+      background-color: var(--gray-light);
+      font-weight: 600;
+    }
+    
+    .scans-table tr:hover {
+      background-color: #f9fafb;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .badge-success {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+    
+    .badge-warning {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    
+    .badge-danger {
+      background-color: #fee2e2;
+      color: #b91c1c;
+    }
+    
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.5rem;
+      gap: 0.5rem;
+    }
+    
+    .page-item {
+      display: inline-block;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.25rem;
+      cursor: pointer;
+    }
+    
+    .page-item.active {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .page-item:hover:not(.active) {
+      background-color: var(--gray-light);
+    }
+    
+    .button {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+    
+    .button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .button-outline {
+      background-color: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .button-outline:hover {
+      background-color: rgba(59, 130, 246, 0.05);
+    }
+    
+    .view-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .view-link:hover {
+      text-decoration: underline;
+    }
+    
+    footer {
+      background-color: #1f2937;
+      color: white;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .footer-link {
+      color: #d1d5db;
+      text-decoration: none;
+    }
+    
+    .footer-link:hover {
+      color: white;
+    }
+    
+    .copyright {
+      margin-top: 1.5rem;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div>
+        <span><img src = "SEALbg.png" width="100px"></span>
+      </div>
+      <div class="nav-links">
+        <a href="seller_dashboard.html" class="nav-link">Dashboard</a>
+        <a href="product_registration.html" class="nav-link">Scan Product</a>
+        <a href="scan_history.html" class="nav-link active">Scan History</a>
+        <a href="report-fraud.html" class="nav-link">Report Fake</a>
+        <a href="chatbot.html" class="nav-link">AI Assistant</a>
+      </div>
+      <div class="user-profile">
+        <div class="user-avatar">MJ</div>
+        <span>Michael Johnson</span>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h1>My Scan History</h1>
+        <button class="button">Scan New Product</button>
+      </div>
+      
+      <div class="scan-filter">
+        <div class="search-bar">
+          <input type="text" class="search-input" placeholder="Search by product name or serial number">
+          <button class="search-button">Search</button>
+        </div>
+        <select class="filter-select">
+          <option>All Statuses</option>
+          <option>Authentic</option>
+          <option>Suspicious</option>
+          <option>Counterfeit</option>
+        </select>
+        <select class="filter-select">
+          <option>Last 30 Days</option>
+          <option>Last 90 Days</option>
+          <option>Last 6 Months</option>
+          <option>Last Year</option>
+          <option>All Time</option>
+        </select>
+      </div>
+      
+      <div class="scan-stats">
+        <div class="stat-card total">
+          <div class="stat-value">32</div>
+          <div class="stat-label">Total Scans</div>
+        </div>
+        <div class="stat-card authentic">
+          <div class="stat-value">26</div>
+          <div class="stat-label">Authentic</div>
+        </div>
+        <div class="stat-card suspicious">
+          <div class="stat-value">4</div>
+          <div class="stat-label">Suspicious</div>
+        </div>
+        <div class="stat-card counterfeit">
+          <div class="stat-value">2</div>
+          <div class="stat-label">Counterfeit</div>
+        </div>
+      </div>
+      
+      <table class="scans-table">
+        <thead>
+          <tr>
+            <th>Date & Time</th>
+            <th>Product Name</th>
+            <th>Serial Number</th>
+            <th>Brand</th>
+            <th>Seller</th>
+            <th>Verification Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Feb 28, 2025 14:23</td>
+            <td>SmartWatch Pro X</td>
+            <td>SWP2025-0023871</td>
+            <td>TechGear</td>
+            <td>Electro World</td>
+            <td><span class="badge badge-success">Authentic</span></td>
+            <td><a href="#" class="view-link">View Details</a></td>
+          </tr>
+          <tr>
+            <td>Feb 25, 2025 09:15</td>
+            <td>Designer Handbag</td>
+            <td>LV-9921-XZ</td>
+            <td>LuxuryBrand</td>
+            <td>Fashion Gallery</td>
+            <td><span class="badge badge-danger">Counterfeit</span></td>
+            <td><a href="#" class="view-link">View Details</a></td>
+          </tr>
+          <tr>
+            <td>Feb 20, 2025 16:42</td>
+            <td>Premium Headphones</td>
+            <td>BT-AUDIO-892347</td>
+            <td>SoundMaster</td>
+            <td>Audio Junction</td>
+            <td><span class="badge badge-success">Authentic</span></td>
+            <td><a href="#" class="view-link">View Details</a></td>
+          </tr>
+          <tr>
+            <td>Feb 17, 2025 11:30</td>
+            <td>Sports Shoes</td>
+            <td>NK-RUN-X9213</td>
+            <td>SportBrand</td>
+            <td>Athlete's Choice</td>
+            <td><span class="badge badge-warning">Suspicious</span></td>
+            <td><a href="#" class="view-link">View Details</a></td>
+          </tr>
+          <tr>
+            <td>Feb 15, 2025 13:05</td>
+            <td>Smartphone X12</td>
+            <td>SPX12-2025-87645</td>
+            <td>PhoneTech</td>
+            <td>Digital World</td>
+            <td><span class="badge badge-success">Authentic</span></td>
+            <td><a href="#" class="view-link">View Details</a></td>
+          </tr>
+          <tr>
+            <td>Feb 10, 2025 17:38</td>
+            <td>Luxury Watch</td>
+            <td>RLX-GMT-8276</td>
+            <td>TimeKeeper</td>
+            <td>Prestige Watches</td>
+            <td><span class="badge badge-success">Authentic</span></td>
+            <td><a href="#" class="view-link">View Details</a></td>
+          </tr>
+          <tr>
+            <td>Feb 05, 2025 09:22</td>
+            <td>Gaming Console X</td>
+            <td>GCX-2025-98234</td>
+            <td>GameStation</td>
+            <td>Game Universe</td>
+            <td><span class="badge badge-success">Authentic</span></td>
+            <td><a href="#" class="view-link">View Details</a></td>
+          </tr>
+          <tr>
+            <td>Jan 29, 2025 12:10</td>
+            <td>Designer Sunglasses</td>
+            <td>RB-AVT-5423</td>
+            <td>SunShade</td>
+            <td>Optical Center</td>
+            <td><span class="badge badge-warning">Suspicious</span></td>
+            <td><a href="#" class="view-link">View Details</a></td>
+          </tr>
+          <tr>
+            <td>Jan 22, 2025 15:45</td>
+            <td>Premium Fragrance</td>
+            <td>CHN-P1-87653</td>
+            <td>LuxScent</td>
+            <td>Beauty Emporium</td>
+            <td><span class="badge badge-success">Authentic</span></td>
+            <td><a href="#" class="view-link">View Details</a></td>
+          </tr>
+          <tr>
+            <td>Jan 15, 2025 10:33</td>
+            <td>Bluetooth Speaker</td>
+            <td>BS-SOUND-54213</td>
+            <td>AudioTech</td>
+            <td>Sound Systems</td>
+            <td><span class="badge badge-success">Authentic</span></td>
+            <td><a href="#" class="view-link">View Details</a></td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div class="pagination">
+        <div class="page-item">«</div>
+        <div class="page-item active">1</div>
+        <div class="page-item">2</div>
+        <div class="page-item">3</div>
+        <div class="page-item">4</div>
+        <div class="page-item">»</div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="footer-content">
+      <div>
+        <div class="logo">
+          <!-- <span>🧬</span> -->
+          <span><img src="SEALbg.png" alt="DNA Logo" width="80px"></span>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="about.html" class="footer-link">About</a>
+        <a href="about.html" class="footer-link">Privacy Policy</a>
+        <a href="about.html" class="footer-link">Terms of Service</a>
+        <a href="contact.html" class="footer-link">Contact Support</a>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2025 SEALit. All rights reserved.
+    </div>
+  </footer>
+  script>
+    document.addEventListener("DOMContentLoaded", async function () {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("You must be logged in to view scan history.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        const buyer = JSON.parse(localStorage.getItem("user"));
+        if (buyer.role !== "buyer") {
+            alert("Only buyers can view scan history.");
+            return;
+        }
+
+        async function fetchScanHistory() {
+            try {
+                const response = await fetch(`http://your-backend-url/api/products/scan-history/${buyer.id}`, {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+
+                const scans = await response.json();
+                document.getElementById("scanTable").innerHTML = scans.map(scan => `
+                    <tr>
+                        <td>${scan.product_name}</td>
+                        <td>${scan.serial_number}</td>
+                        <td>${scan.brand}</td>
+                        <td>${new Date(scan.scanned_at).toLocaleDateString()}</td>
+                        <td class="status-${scan.verified ? "verified" : "fake"}">${scan.verified ? "✅ Authentic" : "❌ Fake"}</td>
+                    </tr>
+                `).join("");
+            } catch (error) {
+                alert("Error fetching scan history: " + error.message);
+            }
+        }
+
+        fetchScanHistory();
+    });
+</script>
+</body>
+</html>
