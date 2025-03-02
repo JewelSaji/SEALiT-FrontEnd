@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEALit - Blockchain Explorer</title>
+    <style>
+        :root {
+            --primary-color: #c73295;
+            --secondary-color: #2ecc71;
+            --accent-color: #f39c12;
+            --danger-color: #e74c3c;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo-text {
+            color: var(--dark-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo-text span {
+            color: var(--primary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .blockchain-section {
+            padding: 3rem 0;
+        }
+        
+        .blockchain-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .blockchain-header h1 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .blockchain-header p {
+            color: #777;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .blockchain-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+        }
+        
+        .block-info {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+        }
+        
+        .block-title {
+            font-size: 1.2rem;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .block-badge {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .info-item {
+            margin-bottom: 0.8rem;
+        }
+        
+        .info-label {
+            font-weight: 500;
+            color: #777;
+            margin-bottom: 0.2rem;
+            font-size: 0.9rem;
+        }
+        
+        .info-value {
+            font-family: monospace;
+            background-color: var(--light-color);
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+        
+        .qr-section {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .qr-title {
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .qr-container {
+            max-width: 250px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .qr-code {
+            width: 100%;
+            height: auto;
+        }
+        
+        .hash-code {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background-color: var(--light-color);
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            word-break: break-all;
+        }
+        
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #b02884;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .verification-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            display: flex;
+            align-items: center;
+            background-color: var(--light-color);
+            padding: 0.8rem 1.2rem;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+        }
+        
+        .badge-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .badge-text {
+            font-weight: 500;
+        }
+        
+        .transaction-list {
+            margin-top: 2rem;
+        }
+        
+        .transaction-list h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .transaction-item {
+            background-color: var(--light-color);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+        }
+        
+        .transaction-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .transaction-id {
+            font-family: monospace;
+            font-weight: 500;
+        }
+        
+        .transaction-time {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .transaction-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 2rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .transaction-detail {
+            display: flex;
+        }
+        
+        .detail-name {
+            color: #777;
+            margin-right: 0.5rem;
+        }
+        
+        .qr-animated-border {
+            padding: 10px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color), var(--primary-color));
+            background-size: 300% 100%;
+            animation: gradient-border 4s ease infinite;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes gradient-border {
+            0% {background-position: 0% 50%}
+            50% {background-position: 100% 50%}
+            100% {background-position: 0% 50%}
+        }
+        
+        .qr-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: #777;
+        }
+        
+        .qr-info-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .qr-info-icon {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 0 1rem;
+            margin-top: 3rem;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid #3a506b;
+            color: #bbb;
+            font-size: 0.875rem;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <img src="/api/placeholder/40/40" alt="SEALit Logo">
+                    <div class="logo-text">SEAL<span>it</span></div>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="product-verification.html">Verify Product</a></li>
+                    <li><a href="report-fraud.html">Report Fake</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Blockchain Explorer Section -->
+    <section class="blockchain-section">
+        <div class="container">
+            <div class="blockchain-header">
+                <h1>Blockchain Verification Record</h1>
+                <p>This page displays the immutable blockchain record for the verified product. All product authenticity information is permanently stored on our secure blockchain.</p>
+            </div>
+            
+            <div class="blockchain-container">
+                <div class="block-info">
+                    <div class="block-title">
+                        <span>Product Authentication Record</span>
+                        <span class="block-badge">Verified</span>
+                    </div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Block Number</div>
+                            <div class="info-value">14,526,891</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">Timestamp</div>
+                            <div class="info-value">Jan 15, 2025 09:23:45 UTC</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">Transaction Hash</div>
+                            <div class="info-value">0x7a9d2e34f5b6c8d1a0e2f3c4d5e6f7a8b9c0d1e2</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">Product ID</div>
+                            <div class="info-value">PDN-587432951</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">Manufacturer</div>
+                            <div class="info-value">LuxLeather Official</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">Registration Date</div>
+                            <div class="info-value">Jan 15, 2025</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">Product Type</div>
+                            <div class="info-value">Premium Leather Wallet</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">Verification Count</div>
+                            <div class="info-value">3 verifications</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="verification-badges">
+                    <div class="badge">
+                        <div class="badge-icon">✓</div>
+                        <div class="badge-text">Authentic Product</div>
+                    </div>
+                    
+                    <div class="badge">
+                        <div class="badge-icon">🔒</div>
+                        <div class="badge-text">Secure Blockchain</div>
+                    </div>
+                    
+                    <div class="badge">
+                        <div class="badge-icon">🔄</div>
+                        <div class="badge-text">DNA Matched</div>

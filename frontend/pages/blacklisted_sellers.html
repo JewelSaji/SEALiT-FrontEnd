@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blacklisted Sellers | Product DNA Credibility System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-800 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="SEALbg.png" alt="DNA Logo" width="100px">
+                <!-- <span class="font-bold text-xl">SEALit</span> -->
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="hover:text-blue-200">Home</a>
+                <a href="admin_dashboard.html" class="hover:text-blue-200">Dashboard</a>
+                <a href="reported_frauds.html" class="hover:text-blue-200">Reports</a>
+                <!-- <a href="admin_dashboard.html" class="hover:text-blue-200">Settings</a> -->
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <span class="text-white">Admin</span>
+                </div>
+                <button class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md text-sm font-medium">Log Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Dashboard Navigation -->
+    <div class="bg-gray-800 text-white py-2">
+        <div class="container mx-auto px-4">
+            <div class="flex overflow-x-auto space-x-4 py-1">
+                <a href="admin_dashboard.html" class="px-3 py-2 text-sm rounded hover:bg-gray-700">Dashboard</a>
+                <a href="seller_management.html" class="px-3 py-2 text-sm rounded hover:bg-gray-700">View All Sellers</a>
+                <a href="blacklisted_sellers.html" class="px-3 py-2 text-sm rounded bg-blue-600">Blacklisted Sellers</a>
+                <a href="reported_frauds.html" class="px-3 py-2 text-sm rounded hover:bg-gray-700">Reported Frauds</a>
+                <a href="admin_dashboard.html" class="px-3 py-2 text-sm rounded hover:bg-gray-700">System Analytics</a>
+                <a href="admin_dashboard.html" class="px-3 py-2 text-sm rounded hover:bg-gray-700">Admin Management</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Page Header -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">Blacklisted Sellers</h1>
+            <div class="flex space-x-2">
+                <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm flex items-center">
+                    <i class="fas fa-file-export mr-2"></i> Export List
+                </button>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm flex items-center">
+                    <i class="fas fa-filter mr-2"></i> Filter
+                </button>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+            <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                <div class="flex-1">
+                    <div class="relative">
+                        <input type="text" placeholder="Search by seller name, ID, or location..." class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        <div class="absolute left-3 top-2.5 text-gray-400">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <select class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        <option>All Categories</option>
+                        <option>Electronics</option>
+                        <option>Fashion</option>
+                        <option>Home Goods</option>
+                        <option>Pharmaceuticals</option>
+                    </select>
+                    <select class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        <option>All Blacklist Reasons</option>
+                        <option>Counterfeit Products</option>
+                        <option>Misrepresentation</option>
+                        <option>Quality Fraud</option>
+                        <option>Repeated Violations</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <div class="flex items-center">
+                    <div class="bg-red-100 p-3 rounded-full">
+                        <i class="fas fa-user-slash text-red-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">Total Blacklisted</h3>
+                        <p class="text-2xl font-bold text-gray-800">147</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span class="text-red-600 text-sm font-medium"><i class="fas fa-arrow-up"></i> 12% this month</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <div class="flex items-center">
+                    <div class="bg-yellow-100 p-3 rounded-full">
+                        <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">On Probation</h3>
+                        <p class="text-2xl font-bold text-gray-800">32</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span class="text-yellow-600 text-sm font-medium"><i class="fas fa-arrow-down"></i> 5% this month</span>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <div class="flex items-center">
+                    <div class="bg-blue-100 p-3 rounded-full">
+                        <i class="fas fa-gavel text-blue-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">Legal Cases Active</h3>
+                        <p class="text-2xl font-bold text-gray-800">18</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span class="text-blue-600 text-sm font-medium"><i class="fas fa-arrow-up"></i> 3% this month</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blacklisted Sellers Table -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seller Details</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Blacklist Details</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reports</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <!-- Seller 1 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img src="astronaut.png" alt="Seller" class="h-10 w-10 rounded-full">
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">TechGadget Solutions</div>
+                                    <div class="text-sm text-gray-500">ID: SLR-78934</div>
+                                    <div class="text-sm text-gray-500">Electronics</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Counterfeit Electronics</div>
+                            <div class="text-sm text-gray-500">Blacklisted on: Jan 15, 2025</div>
+                            <div class="text-xs text-red-600">Multiple offenses</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Permanent Ban</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <div class="text-sm font-medium">37 reports</div>
+                            <div class="text-xs text-gray-500">23 verified</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
+                            <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-history"></i></button>
+                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <!-- Seller 2 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img src="girl.png" alt="Seller" class="h-10 w-10 rounded-full">
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">LuxeFashion Outlet</div>
+                                    <div class="text-sm text-gray-500">ID: SLR-45621</div>
+                                    <div class="text-sm text-gray-500">Fashion</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Misrepresentation of Products</div>
+                            <div class="text-sm text-gray-500">Blacklisted on: Feb 3, 2025</div>
+                            <div class="text-xs text-yellow-600">First major offense</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Temporary - 3 months</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <div class="text-sm font-medium">14 reports</div>
+                            <div class="text-xs text-gray-500">9 verified</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
+                            <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-history"></i></button>
+                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <!-- Seller 3 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img src="wave.png" alt="Seller" class="h-10 w-10 rounded-full">
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">MediPharm Direct</div>
+                                    <div class="text-sm text-gray-500">ID: SLR-92375</div>
+                                    <div class="text-sm text-gray-500">Pharmaceuticals</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Counterfeit Medications</div>
+                            <div class="text-sm text-gray-500">Blacklisted on: Jan 28, 2025</div>
+                            <div class="text-xs text-red-600">Severe safety concerns</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Permanent Ban</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <div class="text-sm font-medium">21 reports</div>
+                            <div class="text-xs text-gray-500">18 verified</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
+                            <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-history"></i></button>
+                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <!-- Seller 4 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img src="home.png" alt="Seller" class="h-10 w-10 rounded-full">
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">HomeComfort Plus</div>
+                                    <div class="text-sm text-gray-500">ID: SLR-36482</div>
+                                    <div class="text-sm text-gray-500">Home Goods</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Quality Fraud</div>
+                            <div class="text-sm text-gray-500">Blacklisted on: Feb 12, 2025</div>
+                            <div class="text-xs text-yellow-600">Under investigation</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Pending Review</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <div class="text-sm font-medium">8 reports</div>
+                            <div class="text-xs text-gray-500">5 verified</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
+                            <button class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-history"></i></button>
+                            <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex items-center justify-between px-4 py-3 bg-white rounded-lg shadow-md">
+            <div class="flex items-center">
+                <p class="text-sm text-gray-700">
+                    Showing <span class="font-medium">1</span> to <span class="font-medium">4</span> of <span class="font-medium">147</span> results
+                </p>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button class="border rounded-md px-3 py-1 text-sm text-gray-500 hover:bg-gray-50">Previous</button>
+                <button class="border bg-blue-600 text-white rounded-md px-3 py-1 text-sm hover:bg-blue-700">1</button>
+                <button class="border rounded-md px-3 py-1 text-sm text-gray-500 hover:bg-gray-50">2</button>
+                <button class="border rounded-md px-3 py-1 text-sm text-gray-500 hover:bg-gray-50">3</button>
+                <button class="border rounded-md px-3 py-1 text-sm text-gray-500 hover:bg-gray-50">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <img src="SEALbg.png" alt="DNA Logo" width="80px">
+                        <!-- <span class="font-bold text-lg">Product DNA</span> -->
+                    </div>
+                    <p class="text-sm text-gray-400 mt-1">© 2025 SEALit</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="about.html" class="text-sm text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="about.html" class="text-sm text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="contact.html" class="text-sm text-gray-400 hover:text-white">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("You must be logged in as an admin.");
+                window.location.href = "login.html";
+                return;
+            }
+    
+            async function fetchBlacklistedSellers() {
+                try {
+                    const response = await fetch("http://your-backend-url/api/admin/blacklisted-sellers", {
+                        headers: { "Authorization": `Bearer ${token}` }
+                    });
+    
+                    const sellers = await response.json();
+                    document.getElementById("blacklistTable").innerHTML = sellers.map(seller => `
+                        <tr>
+                            <td>${seller.name}</td>
+                            <td>${seller.email}</td>
+                            <td>${seller.reason}</td>
+                            <td>${seller.date_blacklisted}</td>
+                        </tr>
+                    `).join("");
+                } catch (error) {
+                    alert("Error fetching data: " + error.message);
+                }
+            }
+    
+            fetchBlacklistedSellers();
+        });
+    </script> -->
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Product DNA-Based Credibility System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-pink-800 text-white">
+            <div class="p-4">
+                <h1 class="text-xl font-bold">Product DNA System</h1>
+                <p class="text-xs text-white-200">Admin Dashboard</p>
+            </div>
+            <nav class="mt-8">
+                <div class="px-4 py-2 bg-red-900">
+                    <a href="admin_dashboard.html" class="flex items-center">
+                        <i class="fas fa-tachometer-alt mr-3"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="px-4 py-2">
+                    <a href="seller_management.html" class="flex items-center">
+                        <i class="fas fa-store mr-3"></i>
+                        <span>View All Sellers</span>
+                    </a>
+                </div>
+                <div class="px-4 py-2">
+                    <a href="blacklisted_sellers.html" class="flex items-center">
+                        <i class="fas fa-ban mr-3"></i>
+                        <span>Blacklisted Sellers</span>
+                    </a>
+                </div>
+                <div class="px-4 py-2">
+                    <a href="reported_frauds.html" class="flex items-center">
+                        <i class="fas fa-exclamation-triangle mr-3"></i>
+                        <span>Reported Frauds</span>
+                    </a>
+                </div>
+                <div class="px-4 py-2">
+                    <a href="admin_dashboard.html" class="flex items-center">
+                        <i class="fas fa-chart-line mr-3"></i>
+                        <span>Analytics</span>
+                    </a>
+                </div>
+                <div class="px-4 py-2">
+                    <a href="admin_dashboard.html" class="flex items-center">
+                        <i class="fas fa-cog mr-3"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+                <div class="mt-auto px-4 py-2 absolute bottom-4">
+                    <a href="index.html" class="flex items-center text-white-200">
+                        <i class="fas fa-sign-out-alt mr-3"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <header class="bg-white shadow">
+                <div class="px-6 py-4 flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Dashboard Overview</h2>
+                    <div class="flex items-center">
+                        <div class="relative">
+                            <input type="text" placeholder="Search..." class="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                        </div>
+                        <div class="ml-4 relative">
+                            <img src="ironman.png" alt="Admin profile" class="h-10 w-10 rounded-full">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="p-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-indigo-100 text-indigo-500">
+                                <i class="fas fa-users text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-gray-500">Total Sellers</p>
+                                <p class="text-2xl font-semibold">1,248</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-green-500 text-sm font-semibold">+5.2%</span>
+                            <span class="text-gray-500 text-sm"> from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-red-100 text-red-500">
+                                <i class="fas fa-exclamation-triangle text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-gray-500">Fraud Reports</p>
+                                <p class="text-2xl font-semibold">42</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-red-500 text-sm font-semibold">+12.3%</span>
+                            <span class="text-gray-500 text-sm"> from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-green-100 text-green-500">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-gray-500">Verified Products</p>
+                                <p class="text-2xl font-semibold">8,372</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-green-500 text-sm font-semibold">+18.7%</span>
+                            <span class="text-gray-500 text-sm"> from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-yellow-100 text-yellow-500">
+                                <i class="fas fa-ban text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-gray-500">Blacklisted Sellers</p>
+                                <p class="text-2xl font-semibold">27</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-yellow-500 text-sm font-semibold">+2</span>
+                            <span class="text-gray-500 text-sm"> from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Fraud Reports -->
+                <div class="bg-white rounded-lg shadow mb-6">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-800">Recent Fraud Reports</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Case ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seller</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reported On</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#FR-2568</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Designer Handbag</div>
+                                        <div class="text-sm text-gray-500">SN: BG78932154</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">LuxGoods Inc.</div>
+                                        <div class="text-sm text-gray-500">ID: S-45679</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 28, 2025</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Under Review</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">View Details</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#FR-2567</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Smartphone</div>
+                                        <div class="text-sm text-gray-500">SN: PH98765432</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Tech Outlet</div>
+                                        <div class="text-sm text-gray-500">ID: S-12345</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 27, 2025</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Confirmed Fraud</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">View Details</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#FR-2566</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Designer Watch</div>
+                                        <div class="text-sm text-gray-500">SN: WT45678912</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Timepiece Gallery</div>
+                                        <div class="text-sm text-gray-500">ID: S-78901</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 25, 2025</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Resolved</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">View Details</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#FR-2565</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Sneakers</div>
+                                        <div class="text-sm text-gray-500">SN: SH12345678</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">FootFashion Store</div>
+                                        <div class="text-sm text-gray-500">ID: S-23456</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 24, 2025</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Under Review</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">View Details</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="px-6 py-4 border-t border-gray-200">
+                        <a href="reported_frauds.html" class="text-indigo-600 hover:text-indigo-900">View All Reports</a>
+                    </div>
+                </div>
+
+                <!-- Recent Seller Registrations -->
+                <div class="bg-white rounded-lg shadow">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-800">Recent Seller Registrations</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seller ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Business Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Joined</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">S-87654</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="h-10 w-10 flex-shrink-0">
+                                                <img src="girl.png" alt="Company logo" class="h-10 w-10 rounded-full">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">EcoFashion Boutique</div>
+                                                <div class="text-sm text-gray-500">eco@fashionboutique.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">New York, USA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mar 01, 2025</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending Verification</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">Verify</a>
+                                        <a href="#" class="text-red-600 hover:text-red-900">Reject</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">S-87653</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="h-10 w-10 flex-shrink-0">
+                                                <img src="Bloom-wallpaper-Dark.png" alt="Company logo" class="h-10 w-10 rounded-full">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">TechGadgets Plus</div>
+                                                <div class="text-sm text-gray-500">info@techgadgetsplus.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">San Francisco, USA</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 28, 2025</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Verified</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">View Details</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">S-87652</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="h-10 w-10 flex-shrink-0">
+                                                <img src="astronaut.png" alt="Company logo" class="h-10 w-10 rounded-full">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Luxury Timepieces</div>
+                                                <div class="text-sm text-gray-500">sales@luxurytimepieces.com</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">London, UK</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 27, 2025</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Verified</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="#" class="text-indigo-600 hover:text-indigo-900">View Details</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="px-6 py-4 border-t border-gray-200">
+                        <a href="seller_management.html" class="text-indigo-600 hover:text-indigo-900">View All Sellers</a>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("You must be logged in as an admin.");
+                window.location.href = "login.html";
+                return;
+            }
+            
+            const admin = JSON.parse(localStorage.getItem("user"));
+            if (admin.role !== "admin") {
+                alert("Access denied: Admins only.");
+                window.location.href = "index.html";
+                return;
+            }
+            
+            // Fetch all sellers
+            async function fetchSellers() {
+                const response = await fetch("http://your-backend-url/api/admin/sellers", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const sellers = await response.json();
+                document.getElementById("sellerList").innerHTML = sellers.map(seller => `
+                    <tr>
+                        <td>${seller.name}</td>
+                        <td>${seller.email}</td>
+                        <td>${seller.trust_score}</td>
+                        <td>
+                            <button onclick="blacklistSeller(${seller.id})">Blacklist</button>
+                        </td>
+                    </tr>
+                `).join("");
+            }
+            
+            // Blacklist a seller
+            async function blacklistSeller(sellerId) {
+                if (!confirm("Are you sure you want to blacklist this seller?")) return;
+                
+                const response = await fetch(`http://your-backend-url/api/admin/blacklist/${sellerId}`, {
+                    method: "POST",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const result = await response.json();
+                alert(result.message);
+                fetchSellers();
+            }
+            
+            // Fetch all fraud reports
+            async function fetchFraudReports() {
+                const response = await fetch("http://your-backend-url/api/admin/frauds", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const reports = await response.json();
+                document.getElementById("fraudList").innerHTML = reports.map(report => `
+                    <tr>
+                        <td>${report.product_name}</td>
+                        <td>${report.ai_detected}</td>
+                        <td>${report.status}</td>
+                        <td>
+                            <button onclick="resolveFraud(${report.id})">Resolve</button>
+                        </td>
+                    </tr>
+                `).join("");
+            }
+            
+            // Mark fraud as resolved
+            async function resolveFraud(reportId) {
+                if (!confirm("Mark this fraud case as resolved?")) return;
+                
+                const response = await fetch(`http://your-backend-url/api/admin/frauds/${reportId}/resolve`, {
+                    method: "POST",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const result = await response.json();
+                alert(result.message);
+                fetchFraudReports();
+            }
+            
+            fetchSellers();
+            fetchFraudReports();
+        });
+    </script> -->
+</body>
+</html>

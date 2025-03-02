@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buyer Dashboard | Product DNA Verification</title>
+  <style>
+    :root {
+      --primary: #c73295;
+      --primary-dark: #880071;
+      --primary-light: #dbeafe;
+      --secondary: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --gray-light: #f3f4f6;
+      --gray: #9ca3af;
+      --gray-dark: #4b5563;
+      --white: #ffffff;
+      --black: #000000;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f9fafb;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: var(--white);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .nav-link {
+      text-decoration: none;
+      color: var(--gray-dark);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      color: var(--primary);
+    }
+    
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .welcome-banner {
+      background: linear-gradient(to right, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .banner-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .banner-text {
+      flex: 2;
+      min-width: 300px;
+    }
+    
+    .banner-actions {
+      flex: 1;
+      min-width: 250px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .card {
+      background-color: var(--white);
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    h1, h2, h3 {
+      color: #111827;
+    }
+    
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .quick-action-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .quick-action-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    }
+    
+    .quick-action-icon {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+    
+    .quick-action-content {
+      flex-grow: 1;
+    }
+    
+    .recent-scans {
+      margin-top: 1rem;
+    }
+    
+    .scan-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .scan-item:last-child {
+      border-bottom: none;
+    }
+    
+    .scan-details {
+      flex: 1;
+    }
+    
+    .scan-product {
+      font-weight: 600;
+    }
+    
+    .scan-meta {
+      font-size: 0.875rem;
+      color: var(--gray-dark);
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .badge-success {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+    
+    .badge-warning {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    
+    .badge-danger {
+      background-color: #fee2e2;
+      color: #b91c1c;
+    }
+    
+    .stats-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .stat-card {
+      flex: 1;
+      min-width: 180px;
+      padding: 1.5rem;
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      text-align: center;
+      border-top: 4px solid;
+    }
+    
+    .stat-card.authentic {
+      border-color: var(--secondary);
+    }
+    
+    .stat-card.suspicious {
+      border-color: var(--warning);
+    }
+    
+    .stat-card.counterfeit {
+      border-color: var(--danger);
+    }
+    
+    .stat-card.total {
+      border-color: var(--primary);
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--gray-dark);
+    }
+    
+    .report-form {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .report-input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.25rem;
+      font-size: 1rem;
+    }
+    
+    .button {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: background-color 0.2s;
+    }
+    
+    .button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .button-outline {
+      background-color: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .button-outline:hover {
+      background-color: rgba(59, 130, 246, 0.05);
+    }
+    
+    .button-warning {
+      background-color: var(--warning);
+    }
+    
+    .button-warning:hover {
+      background-color: #d97706;
+    }
+    
+    .button-small {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+    
+    .view-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .view-link:hover {
+      text-decoration: underline;
+    }
+    
+    .qrcode-container {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: var(--gray-light);
+      border-radius: 0.5rem;
+    }
+    
+    .qrcode {
+      width: 120px;
+      height: 120px;
+      background-color: white;
+      border: 1px solid #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--gray-dark);
+    }
+    
+    .qrcode-text {
+      flex: 1;
+    }
+    
+    .tips-card {
+      padding: 1.5rem;
+      background-color: var(--primary-light);
+      border-radius: 0.5rem;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .tips-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary-dark);
+    }
+    
+    .tips-list {
+      list-style: none;
+    }
+    
+    .tips-list li {
+      margin-bottom: 0.75rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    
+    .tips-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+    }
+    
+    footer {
+      background-color: #1f2937;
+      color: white;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .footer-link {
+      color: #d1d5db;
+      text-decoration: none;
+    }
+    
+    .footer-link:hover {
+      color: white;
+    }
+    
+    .copyright {
+      margin-top: 1.5rem;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 0.875rem;
+    }
+    
+    @media (max-width: 768px) {
+      .banner-content {
+        flex-direction: column;
+      }
+      
+      .stats-row {
+        flex-direction: column;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="SEALbg.png" alt="DNA Logo" width="100px">
+        <!-- <span>ProductDNA</span> -->
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="product_registration.html" class="nav-link">Scan Product</a>
+        <a href="scan_history.html" class="nav-link">Scan History</a>
+        <a href="reported_frauds.html" class="nav-link">Report Fake</a>
+        <a href="chatbot.html" class="nav-link">AI Assistant</a>
+      </div>
+      <div class="user-profile">
+        <div class="user-avatar">MJ</div>
+        <span>Michael Johnson</span>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="welcome-banner">
+      <div class="banner-content">
+        <div class="banner-text">
+          <h1 style="color: white;">Welcome back, Michael! </h1>
+          <p>Protect yourself from counterfeit products with our advanced DNA-based verification system. Scan products, check authenticity, and report fakes all in one place.</p>
+        </div>
+        <div class="banner-actions">
+          <a href="product_registration.html" class="button">Scan New Product</a>
+          <a href="about.html" class="button">View Tutorial</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card total">
+        <div class="stat-value">32</div>
+        <div class="stat-label">Total Scans</div>
+      </div>
+      <div class="stat-card authentic">
+        <div class="stat-value">26</div>
+        <div class="stat-label">Authentic Products</div>
+      </div>
+      <div class="stat-card suspicious">
+        <div class="stat-value">4</div>
+        <div class="stat-label">Suspicious Items</div>
+      </div>
+      <div class="stat-card counterfeit">
+        <div class="stat-value">2</div>
+        <div class="stat-label">Confirmed Counterfeits</div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="card quick-action-card">
+        <div class="quick-action-icon">🔍</div>
+        <div class="quick-action-content">
+          <h3>Scan Product</h3>
+          <p>Verify the authenticity of your product using QR code or serial number verification.</p>
+          <div class="qrcode-container">
+            <div class="qrcode"><img src=QR_Code.webp width="110px"></div>
+            <div class="qrcode-text">
+              <p>Scan a product's QR code to instantly verify its authenticity on our blockchain.</p>
+              <a href="product_registration.html" class="button button-small">Open Scanner</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card quick-action-card">
+        <div class="quick-action-icon">⚠️</div>
+        <div class="quick-action-content">
+          <h3>Report Counterfeit</h3>
+          <p>Found a fake product? Report it to help protect other consumers and alert authorities.</p>
+          <div class="report-form">
+            <input type="text" class="report-input" placeholder="Enter product serial number">
+            <button class="button">Report</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card quick-action-card">
+        <div class="quick-action-icon">💬</div>
+        <div class="quick-action-content">
+          <h3>AI Assistant</h3>
+          <p>Get help with product verification, reporting fakes, or understanding your rights when you've purchased a counterfeit.</p>
+          <a href="chatbot.html" class="button">Chat with Assistant</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Recent Scans</h2>
+        <a href="scan_history.html" class="view-link">View All Scans</a>
+      </div>
+      <div class="recent-scans">
+        <div class="scan-item">
+          <div class="scan-details">
+            <div class="scan-product">SmartWatch Pro X</div>
+            <div class="scan-meta">Feb 28, 2025 • TechGear • Electro World</div>
+          </div>
+          <span class="badge badge-success">Authentic</span>
+        </div>
+        <div class="scan-item">
+          <div class="scan-details">
+            <div class="scan-product">Designer Handbag</div>
+            <div class="scan-meta">Feb 25, 2025 • LuxuryBrand • Fashion Gallery</div>
+          </div>
+          <span class="badge badge-danger">Counterfeit</span>
+        </div>
+        <div class="scan-item">
+          <div class="scan-details">
+            <div class="scan-product">Premium Headphones</div>
+            <div class="scan-meta">Feb 20, 2025 • SoundMaster • Audio Junction</div>
+          </div>
+          <span class="badge badge-success">Authentic</span>
+        </div>
+        <div class="scan-item">
+          <div class="scan-details">
+            <div class="scan-product">Sports Shoes</div>
+            <div class="scan-meta">Feb 17, 2025 • SportBrand • Athlete's Choice</div>
+          </div>
+          <span class="badge badge-warning">Suspicious</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tips-card">
+      <div class="tips-title">
+        <h3>Tips for Spotting Counterfeits</h3>
+      </div>
+      <ul class="tips-list">
+        <li><strong>Check the price:</strong> If a deal seems too good to be true, it probably is.</li>
+        <li><strong>Inspect packaging:</strong> Look for poor quality printing, spelling errors, or inconsistent fonts.</li>
+        <li><strong>Verify sellers:</strong> Check the seller's trust score and history on our platform.</li>
+        <li><strong>Examine product quality:</strong> Poor stitching, uneven colors, or shoddy materials often indicate counterfeits.</li>
+        <li><strong>Always scan:</strong> Use our DNA-based verification for the most reliable authentication.</li>
+      </ul>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="footer-content">
+      <div>
+        <div class="logo">
+          <img src="SEALbg.png" alt="DNA Logo" width="80px">
+          <!-- <span>ProductDNA</span> -->
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="about.html" class="footer-link">About</a>
+        <a href="about.html" class="footer-link">Privacy Policy</a>
+        <a href="about.html" class="footer-link">Terms of Service</a>
+        <a href="contact.html" class="footer-link">Contact Support</a>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2025 ProductDNA Verification System. All rights reserved.
+    </div>
+  </footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("fraudReportForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+            
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("You must be logged in to report fraud.");
+                return;
+            }
+            
+            const buyer = JSON.parse(localStorage.getItem("user"));
+            if (buyer.role !== "buyer") {
+                alert("Only buyers can report fraud.");
+                return;
+            }
+            
+            const productId = document.getElementById("productId").value;
+            const imageFile = document.getElementById("fraudImage").files[0];
+            
+            const formData = new FormData();
+            formData.append("buyer_id", buyer.id);
+            formData.append("product_id", productId);
+            formData.append("image", imageFile);
+            
+            try {
+                const response = await fetch("http://your-backend-url/api/fraud/report", {
+                    method: "POST",
+                    headers: { "Authorization": `Bearer ${token}` },
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert("Fraud report submitted successfully!");
+                    window.location.href = "fraud_status.html";
+                } else {
+                    alert("Error: " + data.error);
+                }
+            } catch (error) {
+                alert("Request failed: " + error.message);
+            }
+        });
+    });
+</script>
+</body>
+</html>
