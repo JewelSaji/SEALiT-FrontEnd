@@ -52,23 +52,6 @@ No external libraries or frameworks — lightweight and easy to customize.
 
 ---
 
-## 📁 Project Structure
-
-```
-SEALiT-FrontEnd/
-├── frontend/
-│   ├── pages/
-│   │   └── index.html
-│   ├── styles/
-│   │   └── style.css
-│   ├── scripts/
-│   │   └── main.js
-│   └── assets/ (images/icons)
-└── run.bat
-```
-
----
-
 ## 🤝 Contribution
 
 Contributions are welcome!
