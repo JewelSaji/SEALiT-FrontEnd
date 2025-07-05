@@ -67,6 +67,7 @@ Contributions are welcome!
 ## 👨‍💻 Author
 
 Developed by **B Akash Krishna**
+
 Part of the broader SEALiT platform project.
 
 ```
