@@ -1,27 +1,28 @@
 # 🌊 SEALiT FrontEnd
 
-A responsive and interactive frontend for **SEALiT**, a secure seal management platform. Built with HTML, CSS, and JavaScript, this interface provides users with seamless access to seal creation, viewing, and embedding functionality.
+This is the frontend for **SEALiT**, a secure seal generation and embedding platform. The interface is built with pure HTML, CSS, and JavaScript, providing a clean and interactive user experience for generating, viewing, and embedding digital seals.
 
 ---
 
-## 🗂️ Project Overview
+## 📂 Project Overview
 
-This project is part of a larger secure seal ecosystem that includes:
-- **Backend** – Manages seal generation and storage.
-- **Frontend** – Your focus in this repository: a web-based UI for interacting with seals.
+SEALiT enables the creation of secure, embeddable seals that can be easily integrated into websites or applications. This repository contains the complete frontend interface.
 
 ---
 
-## 🧩 Built With
+## 🛠️ Built With
 
-- **HTML**, **CSS**, **JavaScript**  
-- No external frameworks—designed for simplicity and modularity.
+- HTML  
+- CSS  
+- JavaScript  
+
+No external libraries or frameworks — lightweight and easy to customize.
 
 ---
 
-## ⚙️ How to Run Locally
+## ⚙️ How to Run
 
-1. **Clone the repository**
+1. **Clone the Repository**
    ```bash
-   git clone https://github.com/akash199699/SEALiT.git
-   cd SEALiT/frontend
+   git clone https://github.com/akash199699/SEALiT-FrontEnd.git
+   cd SEALiT-FrontEnd
