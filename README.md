@@ -66,7 +66,7 @@ Contributions are welcome!
 
 ## 👨‍💻 Author
 
-Developed by **B Akash Krishna**
+Developed by **Jewel Saji**, **B Akash Krishna**, **Jisto C.S**, and **Ruben Isac Abraham**
 
 Part of the broader SEALiT platform project.
 
